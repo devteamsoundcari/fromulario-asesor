@@ -1,4 +1,5 @@
-import React, { createContext } from 'react'
+import React, { useState, createContext } from 'react'
+import { tempData } from '../../assets/tempData'
 
 const FormularioContext = createContext()
 
@@ -121,14 +122,60 @@ function FormularioProvider({ children }) {
     },
   ]
 
-  const perro = 'perro'
+  const initialData = {
+    docType: '',
+    docNum: 0,
+  }
+
+  //Estado inicial de metadata
+  const [metaData, setMetaData] = useState(initialData)
+  //Estado inicial de la data pagina 2
+  const [autData, setAutData] = useState()
+  //Estado inicial de la data pagina 3
+  const [tipData, setTipData] = useState([])
+  //Array de usuarios encontrados
+  const [filteredUser, setFilteredUser] = useState(undefined)
+
+  const cleanData = (e, num) => {
+    e.preventDefault()
+    switch (num) {
+      case 1:
+        setMetaData(initialData)
+        setFilteredUser()
+        break
+      case 2:
+        setAutData()
+        break
+      case 3:
+        setTipData([])
+        break
+    }
+  }
+
+  const findUser = (numeroId) => {
+    const sendNumber = numeroId
+    const result = tempData.find(({ numeroId }) => sendNumber === numeroId)
+    if (result) {
+      if (result.autorizaciones.length > 1) {
+        setFilteredUser(result.autorizaciones)
+      }
+    } else {
+      return
+    }
+  }
 
   return (
     <FormularioContext.Provider
       value={{
-        perro,
+        metaData,
+        setMetaData,
+        setAutData,
+        setTipData,
         documentTypeList,
         serviceTypeList,
+        cleanData,
+        findUser,
+        filteredUser,
       }}
     >
       {children}
