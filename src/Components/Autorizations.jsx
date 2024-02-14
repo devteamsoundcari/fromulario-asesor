@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { FormularioContext } from './Context/index'
 
-const Metadata = () => {
+const Autorizations = () => {
   const { documentTypeList } = useContext(FormularioContext)
   return (
     <details>
-      <summary>Metadata</summary>
+      <summary>Últimas Autorizaciones</summary>
       <select>
         Seleccione un tipo de documento
         {documentTypeList.map((documentType) => (
@@ -20,4 +20,4 @@ const Metadata = () => {
   )
 }
 
-export { Metadata }
+export { Autorizations }
