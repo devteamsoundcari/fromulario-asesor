@@ -1,0 +1,100 @@
+const dateInit = new Date()
+const day = dateInit.getDate()
+const month = dateInit.getMonth()
+const year = dateInit.getFullYear()
+const date = `${day}/${month}/${year}`
+
+const tempData = [
+  {
+    id: 1,
+    nombre: 'Pepito Perez',
+    tipoId: 1,
+    numeroId: '123456789',
+    edad: '32',
+    telefono: '1234567890',
+    correo: 'pepito@example.com',
+    contrato: '5698741',
+    plan: 'COLSANITAS MODULAR PENSIONADOS TELECOM',
+    ciudad: 'Medellín',
+    telefonoContacto: 'Llega del formulario',
+    correoFormulario: 'Llega del formulario',
+    fechaConversacion: date,
+    tipificacion: 'Validaciones y estados de cuenta',
+    contratoEps: '142589 HABILITADO',
+    contratosFamilia: 'COLSANITAS BLA BLA',
+    idConversacion: '1547891445',
+    autorizaciones: [
+      {
+        numeroAutorizacion: '243508076',
+        sucursal: 'CENTRAL DE AUTORIZACIONES BOGOTA',
+        fechaExpedicion: '5/10/2023',
+        fechaExpiracion: '1/11/2023',
+        producto: 'Colsanitas',
+        estado: 'Impresa aprobada',
+        nombrePrestador: 'GALLO MEJIA JUAN CARLOS',
+        procedimientoMedicamento: '471110 - APENDICECTOMIA VIA LAPAROSCOPICA',
+        observacion1: `AMPLIACION DE HISTORIA CLINICA - 72 MESES DE ANTIGUEDAD//
+        SIN PREEXISTENCIAS//
+        9 MESES DE EVOLUCION//
+        PERTINENTE IMPRIMIR SI`,
+        observacion2: `PRESENTAR CARNÉ Y DOC. DE IDENTIFICACIÓN`,
+        observacion3: `SS INYECCION DE ANESTSIA DENTRO DE NERVIO PERIFERICOP CON FINES ANALGESICOS // AURICULOTEMPORALES ,SUPRAORBITARIO Y OCCIPITAL MAYOR BILATERAL - IMPRIMIR SI`,
+      },
+      {
+        numeroAutorizacion: '243506240',
+        sucursal: 'CENTRAL DE AUTORIZACIONES BOGOTA',
+        fechaExpedicion: '5/10/2023',
+        fechaExpiracion: '27/03/2024',
+        producto: 'Colsanitas',
+        estado: 'Impresa aprobada',
+        nombrePrestador: 'CLINICA DE MARLY S A',
+        procedimientoMedicamento: '883103 - RESONANCIA MAGNETICA DE ORBITAS',
+        observacion1: `MASIVO, SERVICIO OXÍGENOS SEPTIEMBRE 2023,NO IMPRIMIR AUTORIZACIÓN`,
+        observacion2: `INCLUYE MEDIO DE CONTRASTE`,
+        observacion3: `ANEXAR VALE(S) DE ASISTENCIA MEDICA (FÍSICO O ELECTRÓNICO)`,
+      },
+    ],
+  },
+  {
+    id: 2,
+    nombre: 'Juanito Pérez',
+    tipoId: 1,
+    numeroId: '0987654321',
+    edad: '44',
+    telefono: '1234567890',
+    correo: 'juanito@example.com',
+    contrato: '459874',
+    plan: 'COLSANITAS INTEGRAL',
+    ciudad: 'Bogotá',
+    telefonoContacto: 'Llega del formulario',
+    correoFormulario: 'Llega del formulario',
+    fechaConversacion: date,
+    tipificacion: 'Autorizaciones',
+    contratoEps: '523456 HABILITADO',
+    contratosFamilia: '',
+    idConversacion: '8965412389',
+    autorizaciones: [],
+  },
+  {
+    id: 3,
+    nombre: 'María García',
+    tipoId: 1,
+    numeroId: '1029384756',
+    edad: '28',
+    telefono: '5555555555',
+    correo: 'maria@example.com',
+    contrato: '745698',
+    plan: 'COLSANITAS',
+    ciudad: 'Manizales',
+    telefonoContacto: 'Llega del formulario',
+    correoFormulario: 'Llega del formulario',
+    fechaConversacion: date,
+    tipificacion: 'Autorizaciones',
+    contratoEps: '523456 NO HABILITADO',
+    contratosFamilia: '',
+    idConversacion: '8965445698',
+    autorizaciones: [],
+  },
+]
+
+export { tempData }

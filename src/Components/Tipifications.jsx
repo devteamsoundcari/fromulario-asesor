@@ -10,7 +10,9 @@ const Tipifications = () => {
       <select>
         Seleccione un tipo de documento
         {serviceTypeList.map((serviceType) => (
-          <option value={serviceType.value}>{serviceType.name}</option>
+          <option key={serviceType.value} value={serviceType.value}>
+            {serviceType.name}
+          </option>
         ))}
       </select>
       <label htmlFor="level1">Nivel 1</label>
