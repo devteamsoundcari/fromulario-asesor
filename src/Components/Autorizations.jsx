@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { FormularioContext } from './Context/index'
+import { FormularioContext } from '../Context/index'
 
 const Autorizations = () => {
   const { filteredUser } = useContext(FormularioContext)

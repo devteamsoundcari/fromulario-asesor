@@ -1,6 +1,6 @@
 import logo from './assets/logo.png'
 import { Metadata } from './Components/Metadata'
-import { FormularioProvider } from './Components/Context'
+import { FormularioProvider } from './Context'
 import { Autorizations } from './Components/Autorizations'
 import { Tipifications } from './Components/Tipifications'
 import './App.css'

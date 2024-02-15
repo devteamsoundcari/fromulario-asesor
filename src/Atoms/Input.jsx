@@ -68,12 +68,26 @@ const Input = ({
     }
     if (type === 'select') {
       return (
-        <select name={name} id={id} onChange={onChange}>
+        <select name={name} key={id} onChange={onChange}>
           {label}
           {options.map((option) => {
             return (
               <option key={option.value} value={option.value}>
                 {option.name}
+              </option>
+            )
+          })}
+        </select>
+      )
+    }
+    if (type === 'select-tip') {
+      return (
+        <select name={name} key={id} onChange={onChange}>
+          {label}
+          {options.map((option) => {
+            return (
+              <option key={option.texto} value={option.texto}>
+                {option.texto}
               </option>
             )
           })}

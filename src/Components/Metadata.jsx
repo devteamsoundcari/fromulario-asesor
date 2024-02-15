@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { FormularioContext } from './Context/index'
+import { FormularioContext } from '../Context/index'
 import { Input } from '../Atoms/Input'
 
 const Metadata = () => {
@@ -23,7 +23,7 @@ const Metadata = () => {
       <summary>Metadata</summary>
       <Input
         type={'select'}
-        label={'Ingrese el número de documento'}
+        label={'Ingrese el tipo de documento'}
         onChange={onChange}
         options={documentTypeList}
         value={docType}
