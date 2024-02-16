@@ -136,6 +136,8 @@ function FormularioProvider({ children }) {
   const [autData, setAutData] = useState()
   //Estado inicial de la data en tipificaciones
   const [tipData, setTipData] = useState([initialTip])
+  //Controlador para el valor del textarea
+  const [textAreaValue, setTextAreaValue] = useState('')
   //Array de usuarios encontrados
   const [filteredUser, setFilteredUser] = useState(undefined)
   //cantidad de tipificaciones a mapear
@@ -164,6 +166,7 @@ function FormularioProvider({ children }) {
         setNivel1([])
         setNivel2([])
         setNivel3([])
+        setTextAreaValue('')
         break
     }
   }
@@ -195,6 +198,15 @@ function FormularioProvider({ children }) {
     return newArray
   }
 
+  //funcion que maneja el envio de la data
+  const sendData = () => {
+    const finalObject = {
+      tipificacion: tipData,
+      valorTextarea: textAreaValue,
+    }
+    console.log('aca se van a enviar los datos de', finalObject)
+  }
+
   // filtro del nivel 1
   const filtNiv1 = (valor) => {
     const valorEnviado = valor
@@ -205,7 +217,6 @@ function FormularioProvider({ children }) {
   const filtNiv2 = (valor) => {
     const valorEnviado = valor
     const result = nivel1.find(({ texto }) => valorEnviado === texto)
-    console.log(result)
     setNivel2(result.nivel2)
   }
   // filtro del nivel 3
@@ -238,6 +249,9 @@ function FormularioProvider({ children }) {
         filtNiv3,
         nivel3,
         tipData,
+        textAreaValue,
+        setTextAreaValue,
+        sendData,
       }}
     >
       {children}
