@@ -21,7 +21,7 @@ const Metadata = () => {
   return (
     <details>
       <summary>Metadata</summary>
-      <Input
+      {/* <Input
         type={'select'}
         label={'Ingrese el tipo de documento'}
         onChange={onChange}
@@ -29,7 +29,20 @@ const Metadata = () => {
         value={docType}
         name={'docType'}
         id={'docType'}
-      />
+      /> */}
+      <select
+        name="motivo"
+        value={metaData.docType}
+        id="motivo"
+        onChange={onChange}
+      >
+        <option value="">Seleccionar...</option>
+        {documentTypeList.map((opcion, index) => (
+          <option key={opcion.id} value={opcion.name} onChange={onChange}>
+            {opcion.name}
+          </option>
+        ))}
+      </select>
       <Input
         type={'text'}
         label={'Ingrese el número de documento'}

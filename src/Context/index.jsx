@@ -128,12 +128,10 @@ function FormularioProvider({ children }) {
     docNum: 0,
   }
   //data inicial del componente tipifications
-  const initialTip = {
-    motivo: '',
-  }
+  const initialTip = { texto: 'Seleccione...', nivel1: [] }
 
   //Estado inicial de metadata
-  const [metaData, setMetaData] = useState(initialData)
+  const [metaData, setMetaData] = useState([initialData])
   //Estado inicial de la data pagina autorizaciones
   const [autData, setAutData] = useState()
   //Estado inicial de la data en tipificaciones
@@ -156,13 +154,16 @@ function FormularioProvider({ children }) {
     switch (num) {
       case 1:
         setMetaData(initialData)
-        setFilteredUser()
+        setFilteredUser([initialTip])
         break
       case 2:
-        setAutData()
-        break
-      case 3:
-        setTipData([])
+        setTipData((prevData) => ({
+          ...prevData,
+          motivo: '', // Establecer el valor de "motivo" a ""
+        }))
+        setNivel1([])
+        setNivel2([])
+        setNivel3([])
         break
     }
   }

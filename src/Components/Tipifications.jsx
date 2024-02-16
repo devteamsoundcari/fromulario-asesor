@@ -2,11 +2,12 @@ import React, { useContext, useEffect } from 'react'
 import { FormularioContext } from '../Context/index'
 import { dataArray } from '../assets/Motivos'
 import plusIcon from '../assets/add-circle.svg'
-import '../Styles/Tipifications.css'
 import { Input } from '../Atoms/Input'
+import '../Styles/Tipifications.css'
 
 const Tipifications = () => {
   const {
+    cleanData,
     addLine,
     formLines,
     initialTip,
@@ -30,7 +31,6 @@ const Tipifications = () => {
     } else if (name === 'nivel-1') {
       filtNiv2(valor)
     } else if (name === 'nivel-2') {
-      console.log('perro')
       filtNiv3(valor)
     }
     setTipData((prevData) => ({
@@ -38,6 +38,7 @@ const Tipifications = () => {
       [name]: valor,
     }))
   }
+
   useEffect(() => {}, [tipData])
 
   return (
@@ -46,15 +47,23 @@ const Tipifications = () => {
       {formLines().map((line, id) => {
         return (
           <div key={id} className="form">
-            <Input
-              type={'select-tip'}
-              label={'Motivo'}
+            <select
+              name="motivo"
+              value={tipData.motivo}
+              id="motivo"
               onChange={onChange}
-              options={dataArray}
-              value={motivo}
-              name={'motivo'}
-              id={'motivo'}
-            />
+            >
+              <option value="">Seleccionar...</option>
+              {dataArray.map((opcion, index) => (
+                <option
+                  key={opcion.texto}
+                  value={opcion.texto}
+                  onChange={onChange}
+                >
+                  {opcion.texto}
+                </option>
+              ))}
+            </select>
             <Input
               type={'select-tip'}
               label={'Nivel 1'}
@@ -62,7 +71,8 @@ const Tipifications = () => {
               options={nivel1}
               value={motivo}
               name={'nivel-1'}
-              id={'motivo'}
+              id={'nivel-1'}
+              required={true}
             />
             <Input
               type={'select-tip'}
@@ -71,7 +81,8 @@ const Tipifications = () => {
               options={nivel2}
               value={motivo}
               name={'nivel-2'}
-              id={'motivo'}
+              id={'nivel-2'}
+              required={true}
             />
             <Input
               type={'select-tip'}
@@ -80,7 +91,8 @@ const Tipifications = () => {
               options={nivel3}
               value={motivo}
               name={'nivel-3'}
-              id={'motivo'}
+              id={'nivel-3'}
+              required={false}
             />
           </div>
         )
@@ -96,39 +108,10 @@ const Tipifications = () => {
         cols="30"
         rows="10"
       ></textarea>
-      <button>Limpiar Formulario</button>
+      <button onClick={(e) => cleanData(e, 2)}>Limpiar Formulario</button>
       <button>Registar tipificación</button>
     </details>
   )
 }
 
 export { Tipifications }
-
-// return (
-//   <div className="form">
-//     <select>
-//       Seleccione un tipo de documento
-//       {serviceTypeList.map((serviceType) => (
-//         <option key={serviceType.value} value={serviceType.value}>
-//           {serviceType.name}
-//         </option>
-//       ))}
-//     </select>
-//     <label htmlFor="level1">Nivel 1</label>
-//     <select name="" id="level1">
-//       -
-//     </select>
-//     <label htmlFor="2">Nivel 2</label>
-//     <select name="" id="2">
-//       -
-//     </select>
-//     <label htmlFor="level3">Nivel 3</label>
-//     <select name="" id="level3">
-//       -
-//     </select>
-//   </div>
-// )
-
-/*                <option key={serviceType.value} value={serviceType.value}>
-                  {serviceType.name}
-                </option> */
