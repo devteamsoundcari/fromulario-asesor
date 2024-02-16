@@ -24,6 +24,7 @@ const Input = ({
   loader,
   fileInputContent,
   children,
+  required,
 }) => {
   if (!id) {
     id = label
@@ -82,7 +83,7 @@ const Input = ({
     }
     if (type === 'select-tip') {
       return (
-        <select name={name} key={id} onChange={onChange}>
+        <select name={name} key={id} onChange={onChange} required={required}>
           {label}
           {options.map((option) => {
             return (
@@ -231,7 +232,6 @@ const Input = ({
         }
       >
         {label}
-        <span className="mandatory">*</span>
       </label>
       {handleType(type)}
     </div>
