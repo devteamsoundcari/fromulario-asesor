@@ -19,6 +19,9 @@ const Tipifications = () => {
     filtNiv3,
     nivel3,
     tipData,
+    setTextAreaValue,
+    textAreaValue,
+    sendData,
   } = useContext(FormularioContext)
   const { motivo } = initialTip
 
@@ -32,6 +35,9 @@ const Tipifications = () => {
       filtNiv2(valor)
     } else if (name === 'nivel-2') {
       filtNiv3(valor)
+    }
+    if (name === 'valor') {
+      setTextAreaValue(valor)
     }
     setTipData((prevData) => ({
       ...prevData,
@@ -103,13 +109,15 @@ const Tipifications = () => {
       </span>
       <label htmlFor="Description">Descripcion</label>
       <textarea
-        name="Description"
+        name="valor"
         id="Description"
         cols="30"
         rows="10"
+        value={textAreaValue}
+        onChange={onChange}
       ></textarea>
       <button onClick={(e) => cleanData(e, 2)}>Limpiar Formulario</button>
-      <button>Registar tipificación</button>
+      <button onClick={sendData}>Registar tipificación</button>
     </details>
   )
 }
