@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { FormularioContext } from '../Context/index'
 import { Input } from '../Atoms/Input'
+import Button from '../Atoms/Button'
 
 const Metadata = () => {
   const { documentTypeList, metaData, setMetaData, cleanData, findUser } =
@@ -21,15 +22,8 @@ const Metadata = () => {
   return (
     <details>
       <summary>Metadata</summary>
-      {/* <Input
-        type={'select'}
-        label={'Ingrese el tipo de documento'}
-        onChange={onChange}
-        options={documentTypeList}
-        value={docType}
-        name={'docType'}
-        id={'docType'}
-      /> */}
+
+      <label htmlFor="motivo">Tipo de documento</label>
       <select
         name="motivo"
         value={metaData.docType}
@@ -51,10 +45,20 @@ const Metadata = () => {
         name={'docNum'}
         id={'docNum'}
       />
-      <button onClick={(e) => findUser(docNum)}>
-        Buscar usario - Nueva Atención
-      </button>
-      <button onClick={(e) => cleanData(e, 1)}>Limpiar formulario</button>
+
+      <Button
+        className={'blue-primary-btn'}
+        onClick={(e) => findUser(docNum)}
+        value={'Buscar usario - Nueva Atención'}
+        type={'button'}
+      />
+
+      <Button
+        className={'blue-primary-btn'}
+        onClick={(e) => cleanData(e, 1)}
+        value={'Limpiar formularion'}
+        type={'button'}
+      />
     </details>
   )
 }
