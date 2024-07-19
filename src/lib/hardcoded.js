@@ -577,7 +577,7 @@ export const tempData = [
   {
     id: 1,
     nombre: 'Pepito Perez',
-    tipoId: 1,
+    tipoId: '1',
     numeroId: '123456789',
     edad: '32',
     telefono: '1234567890',
@@ -627,7 +627,7 @@ export const tempData = [
   {
     id: 2,
     nombre: 'Juanito Pérez',
-    tipoId: 1,
+    tipoId: '1',
     numeroId: '0987654321',
     edad: '44',
     telefono: '1234567890',

@@ -1,3 +1,25 @@
+summary {
+  background-color: var(--keralty-main-blue);
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: var(--keralty-medium-font);
+  color: #fff;
+  margin: 10px auto;
+}
+
+.icon-span {
+  margin-left: 10px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
 .tipifications-sections {
   display: flex;
   flex-direction: row;

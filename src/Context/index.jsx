@@ -11,7 +11,7 @@ function FormularioProvider({ children }) {
   // data inicial del componente metadata
   const initialData = {
     docType: '',
-    docNum: 0,
+    docNum: '',
   }
   //data inicial del componente tipifications
   const initialTip = { texto: 'Seleccione...', nivel1: [] }
@@ -21,7 +21,9 @@ function FormularioProvider({ children }) {
   const [fieldsCount, setFieldsCount] = useState(5)
 
   //Estado inicial de metadata
-  const [metaData, setMetaData] = useState([initialData])
+  const [metaData, setMetaData] = useState(initialData)
+  // El usuario existe
+  const [userExist, setUserExist] = useState(false)
   //Estado inicial de la data pagina autorizaciones
   const [autData, setAutData] = useState()
   //Estado inicial de la data en tipificaciones
@@ -132,15 +134,24 @@ function FormularioProvider({ children }) {
   const validateUser = (e) => {
     e.preventDefault()
 
+    console.log('Metadata', metaData)
     const docType = metaData.docType
     const docNum = metaData.docNum
 
     const user = tempData.find(
-      (user) => user.docType === docType && user.docNum === docNum
+      (user) => user.tipoId === docType && user.numeroId === docNum
     )
     console.log('User', user)
 
-    return true
+    if (user) {
+      setUserExist(true)
+      setAutData(user)
+    } else {
+      setUserExist(false)
+      setAutData(null)
+    }
+
+    return user === undefined ? false : true
   }
 
   //logica que agrega en uno hasta máximo 10 el valor de las tipificaciones
@@ -226,6 +237,7 @@ function FormularioProvider({ children }) {
         autData,
         removeLine,
         tipifications,
+        userExist,
       }}
     >
       {children}

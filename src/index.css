@@ -1,3 +1,21 @@
+:root {
+  --keralty-neutral-gray0: #ffffff;
+  --keralty-gray200: #e4e4e4;
+  --keralty-gray700: #757575;
+  --keralty-gray900: #212121;
+  --keralty-main-blue: #002f87;
+  --keralty-secondary-blue: #0071ce;
+  --keralty-green: #008767;
+  --keralty-footer-darkblue: #006699;
+  --keralty-softgreen: #e7fff9;
+  --keralty-semantics-error: #b50303;
+  --keralty-proxima-nova-main-font: 'Proxima Nova', sans-serif;
+  --keralty-roboto-secundaria-font: 'Roboto', sans-serif;
+  --keralty-medium-font: 22px;
+  --keralty-small-font: 14px;
+  --keralty-large-font: 32px;
+}
+
 * {
   margin: 0;
   padding: 0;

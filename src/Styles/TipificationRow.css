@@ -24,6 +24,8 @@
 .default {
   margin-right: 10px;
   font-weight: 600;
+  display: inherit;
+  align-items: center;
 }
 
 .add-row-btn-cont {

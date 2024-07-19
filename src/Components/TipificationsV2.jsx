@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react'
 import { FormularioContext } from '../Context/index'
 // import { dataArray } from '../assets/Motivos'
 import plusIcon from '../assets/add-circle.svg'
+import { BiCollapseVertical } from 'react-icons/bi'
 // import { Input } from '../Atoms/Input'
 import { TipificationRow } from './TipificationRow'
 import '../Styles/Tipifications.css'
@@ -46,7 +47,13 @@ const TipificationsV2 = () => {
 
   return (
     <details>
-      <summary>Tipificaciones</summary>
+      <summary>
+        Tipificaciones{' '}
+        <span className="icon-span">
+          <BiCollapseVertical />
+        </span>
+      </summary>
+
       {tipifications && tipifications.length === 0
         ? null
         : tipifications.map((element) => {

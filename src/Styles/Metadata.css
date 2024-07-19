@@ -1,0 +1,46 @@
+.metadata-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 60px;
+}
+
+.input-cont {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  gap: 20px;
+  margin: 5px 10px;
+}
+
+.inputBox {
+  align-items: center;
+}
+
+.inputBox label {
+  align-items: center;
+}
+
+.inputBox label,
+input,
+select {
+  height: 30px;
+}
+
+.user-data {
+  padding: auto 10px;
+  margin: 5px 10px;
+}
+
+.user-data div {
+  width: 100%;
+  display: flex;
+  padding: 5px auto;
+  margin: 5px auto;
+  gap: 6px;
+}
+
+.user-data div p:nth-child(1) {
+  font-weight: 700;
+}

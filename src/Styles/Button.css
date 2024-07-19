@@ -1,10 +1,11 @@
 .btn-container {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
-  place-items: center;
+  align-items: center;
   justify-content: center;
-  margin-top: 18px;
-  margin-bottom: 32px;
+  /* margin-top: 18px; */
+  /* margin-bottom: 32px; */
+  gap: 10px;
 }
 
 .primary-button {
@@ -12,7 +13,7 @@
   color: var(--keralty-neutral-gray0);
   font-weight: 600;
   padding: 12px 30px;
-  font-size: 1.6rem;
+  font-size: 1rem;
   display: flex;
   gap: 10px;
   border: none;
@@ -34,7 +35,7 @@
   color: var(--keralty-neutral-gray0);
   font-weight: 600;
   padding: 12px 30px;
-  font-size: 1.6rem;
+  font-size: 1rem;
   display: flex;
   gap: 10px;
   border: none;
