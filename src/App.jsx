@@ -2,7 +2,8 @@ import logo from './assets/logo.png'
 import { Metadata } from './Components/Metadata'
 import { FormularioProvider } from './Context'
 import { Autorizations } from './Components/Autorizations'
-import { Tipifications } from './Components/Tipifications'
+// import { Tipifications } from './Components/Tipifications'
+import { TipificationsV2 } from './Components/TipificationsV2'
 import './App.css'
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
         <FormularioProvider>
           <Metadata />
           <Autorizations />
-          <Tipifications />
+          <TipificationsV2 />
         </FormularioProvider>
       </div>
     </>

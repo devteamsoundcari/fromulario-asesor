@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import '../Styles/TipificationRow.css'
 //import Loader from './Loader'
 
 const Input = ({
@@ -25,6 +26,7 @@ const Input = ({
   fileInputContent,
   children,
   required,
+  disabled,
 }) => {
   if (!id) {
     id = label
@@ -63,7 +65,7 @@ const Input = ({
           value={value}
           onChange={onChange}
           className={className}
-          required
+          required={required ? required : false}
         />
       )
     }
@@ -83,12 +85,20 @@ const Input = ({
     }
     if (type === 'select-tip') {
       return (
-        <select name={name} key={id} onChange={onChange} required={required}>
-          {label}
+        <select
+          name={name}
+          key={id}
+          id={id}
+          onChange={onChange}
+          required={required}
+          disabled={disabled}
+          className={className}
+        >
+          <option value="">Seleccionar...</option>
           {options.map((option) => {
             return (
-              <option key={option.texto} value={option.texto}>
-                {option.texto}
+              <option key={option.nombre} value={option.value}>
+                {option.nombre}
               </option>
             )
           })}
@@ -228,7 +238,7 @@ const Input = ({
           phoneError ||
           serviceTypeError
             ? 'errorInput'
-            : null
+            : 'default'
         }
       >
         {label}

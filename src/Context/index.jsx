@@ -1,127 +1,13 @@
 import React, { useState, createContext } from 'react'
-import { tempData } from '../assets/tempData'
-import { dataArray } from '../assets/Motivos'
+// import { tempData } from '../assets/tempData'
+import { getTipifications } from '../lib/services'
+import { documentTypeList, tempData } from '../lib/hardcoded'
+// import { TipificationRow } from '../Components/TipificationRow'
+import PropTypes from 'prop-types'
 
 const FormularioContext = createContext()
 
 function FormularioProvider({ children }) {
-  /** Array con los tipos de documento que puede seleccionar el usuario */
-  const documentTypeList = [
-    {
-      id: 0,
-      name: 'Selecciona una opción',
-      value: '',
-      stringValue: '',
-    },
-    {
-      id: 1,
-      name: 'Cédula de Ciudadania',
-      value: '1',
-      stringValue: 'CC',
-    },
-    {
-      id: 8,
-      name: 'Tarjeta de Identidad',
-      value: '8',
-      stringValue: 'TI',
-    },
-    {
-      id: 7,
-      name: 'Registro Civil',
-      value: '7',
-      stringValue: 'RC',
-    },
-    {
-      id: 2,
-      name: 'Cédula Extranjería',
-      value: '2',
-      stringValue: 'CE',
-    },
-    {
-      id: 6,
-      name: 'Pasaporte',
-      value: '6',
-      stringValue: 'PA',
-    },
-    {
-      id: 3,
-      name: 'Menor sin Identificación',
-      value: '3',
-      stringValue: 'MSI',
-    },
-    {
-      id: 4,
-      name: 'Número de Identificación Tributaria',
-      value: '4',
-      stringValue: 'NIT',
-    },
-    {
-      id: 5,
-      name: 'Número de Identificación Patronal',
-      value: '5',
-      stringValue: 'NIP',
-    },
-    {
-      id: 9,
-      name: 'Carné Diplomático',
-      value: '9',
-      stringValue: 'CD',
-    },
-    {
-      id: 10,
-      name: 'Certificado de Nacido Vivo',
-      value: '10',
-      stringValue: 'CN',
-    },
-    {
-      id: 11,
-      name: 'Salvoconducto de Permanencia',
-      value: '11',
-      stringValue: 'SC',
-    },
-    {
-      id: 12,
-      name: 'Pasaporte ONU',
-      value: '12',
-      stringValue: 'ONU',
-    },
-    {
-      id: 13,
-      name: 'Permiso Especial',
-      value: '13',
-      stringValue: 'PE',
-    },
-    {
-      id: 14,
-      name: 'Permiso por protección Temporal',
-      value: '14',
-      stringValue: 'PT',
-    },
-  ]
-
-  /** Array con los tipos de servicio que puede seleccionar el usuario */
-  const serviceTypeList = [
-    {
-      value: '',
-      name: 'Selecciona una opción',
-    },
-    {
-      value: 1,
-      name: 'Autorizaciones',
-    },
-    {
-      value: 2,
-      name: 'Validación cartera y Estado de Cuenta',
-    },
-    {
-      value: 3,
-      name: 'Soporte de canales virtuales',
-    },
-    {
-      value: 4,
-      name: 'Información general',
-    },
-  ]
   // data inicial del componente metadata
   const initialData = {
     docType: '',
@@ -129,6 +15,10 @@ function FormularioProvider({ children }) {
   }
   //data inicial del componente tipifications
   const initialTip = { texto: 'Seleccione...', nivel1: [] }
+
+  //Estado para tipificaciones desde el servicio
+  const [data, setData] = useState([])
+  const [fieldsCount, setFieldsCount] = useState(5)
 
   //Estado inicial de metadata
   const [metaData, setMetaData] = useState([initialData])
@@ -142,6 +32,9 @@ function FormularioProvider({ children }) {
   const [filteredUser, setFilteredUser] = useState(undefined)
   //cantidad de tipificaciones a mapear
   const [tipificationsLines, setTipificationsLines] = useState(1)
+  const [tipifications, setTipifications] = useState([])
+  //setea el id del campo para que se llene solo uno a la vez
+  const [fieldId, setFieldId] = useState('')
 
   //array del nivel 1
   const [nivel1, setNivel1] = useState([])
@@ -159,6 +52,7 @@ function FormularioProvider({ children }) {
         setFilteredUser([initialTip])
         break
       case 2:
+        setTipifications([])
         setTipData((prevData) => ({
           ...prevData,
           motivo: '', // Establecer el valor de "motivo" a ""
@@ -183,12 +77,7 @@ function FormularioProvider({ children }) {
       return
     }
   }
-  //logica que agrega en uno hasta máximo 10 el valor de las tipificaciones
-  const addLine = () => {
-    if (tipificationsLines < 10) {
-      setTipificationsLines(tipificationsLines + 1)
-    }
-  }
+
   //aumenta el valor del array con el que se imprimen las tipificaciones
   const formLines = () => {
     const newArray = []
@@ -210,21 +99,100 @@ function FormularioProvider({ children }) {
   // filtro del nivel 1
   const filtNiv1 = (valor) => {
     const valorEnviado = valor
-    const result = dataArray.find(({ texto }) => valorEnviado === texto)
-    setNivel1(result.nivel1)
+    const result = data.find(({ value }) => valorEnviado === value)
+    // console.log('Result', result.tag_lvl1)
+    setNivel1(result.tag_lvl1)
+    return result.tag_lvl1
   }
+
   // filtro del nivel 2
   const filtNiv2 = (valor) => {
     const valorEnviado = valor
-    const result = nivel1.find(({ texto }) => valorEnviado === texto)
-    setNivel2(result.nivel2)
+    // console.log('Valor', valor)
+    const result = nivel1.find(({ value }) => valorEnviado === value)
+    setNivel2(result.tag_lvl2)
+    return result.tag_lvl2
   }
+
   // filtro del nivel 3
   const filtNiv3 = (valor) => {
     const valorEnviado = valor
-    const result = nivel2.find(({ texto }) => valorEnviado === texto)
-    setNivel3(result.nivel3)
+    const result = nivel2.find(({ value }) => valorEnviado === value)
+    // console.log('Nivel 2', result)
+    if (result.tag_lvl3) {
+      setNivel3(result.tag_lvl3)
+      return result.tag_lvl3
+    } else {
+      setNivel3([])
+      return []
+    }
   }
+
+  //Función para validar el usuario
+  const validateUser = (e) => {
+    e.preventDefault()
+
+    const docType = metaData.docType
+    const docNum = metaData.docNum
+
+    const user = tempData.find(
+      (user) => user.docType === docType && user.docNum === docNum
+    )
+    console.log('User', user)
+
+    return true
+  }
+
+  //logica que agrega en uno hasta máximo 10 el valor de las tipificaciones
+  const addLine = () => {
+    if (tipifications.length <= fieldsCount) {
+      let number
+      for (let i = 0; i < tipifications.length; i++) {
+        number = i + 1
+      }
+
+      const id = new Date().getTime()
+      const newLine = {
+        id: id,
+        tipNumber: number,
+        htmlData: {
+          id: number,
+        },
+      }
+      // console.log('Entra a set tip', newLine)
+      setTipifications([...tipifications, newLine])
+    }
+  }
+
+  //logica que elimina una fila específica de las tipificaciones
+  const removeLine = (id) => {
+    // console.log('Se removerá el id', id)
+    const newTipArray = tipifications.filter((item) => item.id !== id)
+    // console.log('Se removió', newTipArray)
+    setTipificationsLines(tipifications.length)
+    setTipifications(newTipArray)
+
+    //borra el valor de la tipificacion que se elimina
+    const newTipData = { ...tipData }
+    delete newTipData[`tipificacion${id}`]
+    setTipData(newTipData)
+  }
+
+  React.useEffect(() => {
+    async function fetchTipifications() {
+      try {
+        const res = await getTipifications()
+        // console.log('Tipo res', res)
+        if (res.status === 200) {
+          setData(res.message[0].reason)
+          setFieldsCount(res.message[0].parameterCount)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchTipifications()
+  }, [])
 
   return (
     <FormularioContext.Provider
@@ -236,7 +204,6 @@ function FormularioProvider({ children }) {
         setTipData,
         tipificationsLines,
         documentTypeList,
-        serviceTypeList,
         cleanData,
         addLine,
         findUser,
@@ -252,11 +219,22 @@ function FormularioProvider({ children }) {
         textAreaValue,
         setTextAreaValue,
         sendData,
+        validateUser,
+        fieldId,
+        setFieldId,
+        data,
+        autData,
+        removeLine,
+        tipifications,
       }}
     >
       {children}
     </FormularioContext.Provider>
   )
+}
+
+FormularioProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export { FormularioContext, FormularioProvider }
