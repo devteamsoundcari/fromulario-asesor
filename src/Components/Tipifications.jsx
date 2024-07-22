@@ -3,7 +3,7 @@ import { FormularioContext } from '../Context/index'
 import { dataArray } from '../assets/Motivos'
 import plusIcon from '../assets/add-circle.svg'
 import { Input } from '../Atoms/Input'
-import '../Styles/Tipifications.css'
+import '../styles/Tipifications.css'
 import Button from '../Atoms/Button'
 
 const Tipifications = () => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../Styles/TipificationRow.css'
+import '../styles/TipificationRow.css'
 //import Loader from './Loader'
 
 const Input = ({

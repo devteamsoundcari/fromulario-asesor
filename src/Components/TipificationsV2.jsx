@@ -5,7 +5,7 @@ import plusIcon from '../assets/add-circle.svg'
 import { BiCollapseVertical } from 'react-icons/bi'
 // import { Input } from '../Atoms/Input'
 import { TipificationRow } from './TipificationRow'
-import '../Styles/Tipifications.css'
+import '../styles/Tipifications.css'
 
 const TipificationsV2 = () => {
   const {
@@ -54,44 +54,48 @@ const TipificationsV2 = () => {
         </span>
       </summary>
 
-      {tipifications && tipifications.length === 0
-        ? null
-        : tipifications.map((element) => {
-            // console.log('Line', element)
-            return (
-              <TipificationRow
-                key={element.id}
-                id={element.id}
-                number={element.tipNumber ? element.tipNumber + 1 : 1}
-                motivo={''}
-                filtNiv1={filtNiv1}
-                filtNiv2={filtNiv2}
-                filtNiv3={filtNiv3}
-                setTipData={setTipData}
-              />
-            )
-          })}
+      <form action="" method="post">
 
-      <div className="add-row-btn-cont">
-        <span onClick={addLine}>
-          <img src={plusIcon} alt="icono de más" className="tip-icon" />
-        </span>
-      </div>
+        {tipifications && tipifications.length === 0
+          ? null
+          : tipifications.map((element) => {
+              // console.log('Line', element)
+              return (
+                <TipificationRow
+                  key={element.id}
+                  id={element.id}
+                  number={element.tipNumber ? element.tipNumber + 1 : 1}
+                  motivo={''}
+                  filtNiv1={filtNiv1}
+                  filtNiv2={filtNiv2}
+                  filtNiv3={filtNiv3}
+                  setTipData={setTipData}
+                />
+              )
+            })}
 
-      <div className="observations-cont">
-        <label htmlFor="Description">Descripcion</label>
-        <textarea
-          name="valor"
-          id="Description"
-          cols="60"
-          rows="10"
-          value={textAreaValue}
-          onChange={textAreaOnChange}
-        ></textarea>
-      </div>
+        <div className="add-row-btn-cont">
+          <span onClick={addLine}>
+            <img src={plusIcon} alt="icono de más" className="tip-icon" />
+          </span>
+        </div>
 
-      <button onClick={(e) => cleanData(e, 2)}>Limpiar Formulario</button>
-      <button onClick={sendData}>Registar tipificación</button>
+        <div className="observations-cont">
+          <label htmlFor="Description">Descripcion</label>
+          <textarea
+            name="valor"
+            id="Description"
+            cols="60"
+            rows="10"
+            value={textAreaValue}
+            onChange={textAreaOnChange}
+          ></textarea>
+        </div>
+
+        <button onClick={(e) => cleanData(e, 2)}>Limpiar Formulario</button>
+        <button onClick={sendData}>Registar tipificación</button>
+      </form>
+
     </details>
   )
 }

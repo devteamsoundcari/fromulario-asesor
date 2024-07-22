@@ -6,12 +6,17 @@ import { documentTypeList, tempData } from '../lib/hardcoded'
 import PropTypes from 'prop-types'
 
 const FormularioContext = createContext()
+const paramsData = new URLSearchParams(window.location.search)
+const conversationId = paramsData.get('conversationId')
+const typeDocument = paramsData.get('typeDocument')
+const numberDocument = paramsData.get('numberDocument')
 
 function FormularioProvider({ children }) {
   // data inicial del componente metadata
   const initialData = {
-    docType: '',
-    docNum: '',
+    conversationId: conversationId,
+    docType: typeDocument,
+    docNum: numberDocument,
   }
   //data inicial del componente tipifications
   const initialTip = { texto: 'Seleccione...', nivel1: [] }
@@ -20,6 +25,8 @@ function FormularioProvider({ children }) {
   const [data, setData] = useState([])
   const [fieldsCount, setFieldsCount] = useState(5)
 
+  // Estado metadata primer paciente
+  const [initialMetaData] = useState(initialData)
   //Estado inicial de metadata
   const [metaData, setMetaData] = useState(initialData)
   // El usuario existe
@@ -68,15 +75,26 @@ function FormularioProvider({ children }) {
   }
 
   // funcion que busca el usuario por el número de documento
-  const findUser = (numeroId) => {
-    const sendNumber = numeroId
-    const result = tempData.find(({ numeroId }) => sendNumber === numeroId)
-    if (result) {
-      if (result.autorizaciones.length > 1) {
-        setFilteredUser(result.autorizaciones)
-      }
+  const findUser = (idType, idNumber) => {
+    const docType = idType
+    const docNum = idNumber
+
+    // console.log("Tipo", docType, "Numero", docNum)
+
+    const user = tempData.find(
+      (user) => user.tipoId === docType && user.numeroId === docNum
+    )
+
+    // console.log("User", user)
+
+    if (user) {
+      setUserExist(true)
+      setAutData(user)
+      setFilteredUser(user.autorizaciones)
     } else {
-      return
+      setUserExist(false)
+      setAutData(null)
+      setFilteredUser([])
     }
   }
 
@@ -130,25 +148,27 @@ function FormularioProvider({ children }) {
     }
   }
 
-  //Función para validar el usuario
+  //Función para validar el usuario. Tendrá que ser 
   const validateUser = (e) => {
     e.preventDefault()
 
-    console.log('Metadata', metaData)
+    // console.log('Metadata', metaData)
     const docType = metaData.docType
     const docNum = metaData.docNum
 
     const user = tempData.find(
       (user) => user.tipoId === docType && user.numeroId === docNum
     )
-    console.log('User', user)
 
     if (user) {
       setUserExist(true)
       setAutData(user)
+      setFilteredUser(user.autorizaciones)
+      
     } else {
       setUserExist(false)
       setAutData(null)
+      setFilteredUser([])
     }
 
     return user === undefined ? false : true
@@ -188,6 +208,25 @@ function FormularioProvider({ children }) {
     delete newTipData[`tipificacion${id}`]
     setTipData(newTipData)
   }
+
+  // Función que guarda las tipificaciones en sessionStorage
+  function fixData(data) {
+    const objData = {
+      conversationId: conversationId,
+      userId: numberDocument,
+      data: data,
+    }
+    sessionStorage(`fixData${conversationId}`, JSON.stringify(objData))
+  }
+
+  React.useEffect(() => {
+    const { docType, docNum } = initialMetaData
+    setMetaData(initialMetaData)
+    if (conversationId && typeDocument && numberDocument) {
+      findUser(docType, docNum)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   React.useEffect(() => {
     async function fetchTipifications() {
@@ -238,6 +277,7 @@ function FormularioProvider({ children }) {
         removeLine,
         tipifications,
         userExist,
+        fixData,
       }}
     >
       {children}

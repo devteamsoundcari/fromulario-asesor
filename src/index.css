@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./assets/fonts/Proxima_Nova_Regular.otf');
+}
+
 :root {
   --keralty-neutral-gray0: #ffffff;
   --keralty-gray200: #e4e4e4;
@@ -20,4 +25,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body {
+  font-family: var(--keralty-proxima-nova-main-font);
 }

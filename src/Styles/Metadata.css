@@ -28,6 +28,10 @@ select {
   height: 30px;
 }
 
+.inputBox select, input {
+  min-width: 300px;
+}
+
 .user-data {
   padding: auto 10px;
   margin: 5px 10px;

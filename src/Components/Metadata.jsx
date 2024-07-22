@@ -4,7 +4,7 @@ import { Input } from '../Atoms/Input'
 import Button from '../Atoms/Button'
 import { BiCollapseVertical } from 'react-icons/bi'
 import { documentTypeList } from '../lib/hardcoded'
-import '../Styles/Metadata.css'
+import '../styles/Metadata.css'
 import { UserData } from './UserData'
 
 const Metadata = () => {
@@ -23,9 +23,9 @@ const Metadata = () => {
     })
   }
 
-  useEffect(() => {
-    // console.log('MetaData', metaData)
-  }, [metaData])
+  // useEffect(() => {
+  //   // console.log('MetaData', metaData)
+  // }, [metaData])
 
   return (
     <details>
@@ -36,9 +36,9 @@ const Metadata = () => {
         </span>
       </summary>
 
-      <form className="metadata-form" id="metadataForm" name="metadataForm">
+      <form method="POST" className="metadata-form" id="metadataForm" name="metadataForm">
         <div className="input-cont">
-          <label htmlFor="motivo">Tipo de documento</label>
+          <label htmlFor="docType">Tipo de documento</label>
           <select
             name="docType"
             value={docType}

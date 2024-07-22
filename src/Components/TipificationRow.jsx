@@ -2,7 +2,8 @@ import { useState, useContext } from 'react'
 import { FormularioContext } from '../Context'
 import { Input } from '../Atoms/Input'
 import PropTypes from 'prop-types'
-import '../Styles/TipificationRow.css'
+import { FaTrashAlt } from "react-icons/fa";
+import '../styles/TipificationRow.css'
 
 const TipificationRow = ({
   id,
@@ -185,8 +186,10 @@ const TipificationRow = ({
             className={'texto level-4'}
           />
         </div>
-        <div className="deleteRow">
-          <button onClick={() => removeLine(id)}>Eliminar</button>
+        <div className="delete-row">
+          <button className='delete-btn' onClick={() => removeLine(id)}>
+          <FaTrashAlt />
+          </button>
         </div>
       </div>
 

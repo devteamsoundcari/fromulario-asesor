@@ -1,6 +1,6 @@
 import React from 'react'
 import Loader from './Loader'
-import '../Styles/Button.css'
+import '../styles/Button.css'
 
 const Button = ({
   variant,
