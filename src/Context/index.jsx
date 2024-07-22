@@ -15,11 +15,9 @@ function FormularioProvider({ children }) {
   // data inicial del componente metadata
   const initialData = {
     conversationId: conversationId,
-    docType: typeDocument,
-    docNum: numberDocument,
+    docType: typeDocument ? typeDocument : '',
+    docNum: numberDocument ? numberDocument : '',
   }
-  //data inicial del componente tipifications
-  const initialTip = { texto: 'Seleccione...', nivel1: [] }
 
   //Estado para tipificaciones desde el servicio
   const [data, setData] = useState([])
@@ -34,7 +32,7 @@ function FormularioProvider({ children }) {
   //Estado inicial de la data pagina autorizaciones
   const [autData, setAutData] = useState()
   //Estado inicial de la data en tipificaciones
-  const [tipData, setTipData] = useState([initialTip])
+  const [tipData, setTipData] = useState([])
   //Controlador para el valor del textarea
   const [textAreaValue, setTextAreaValue] = useState('')
   //Array de usuarios encontrados
@@ -108,12 +106,18 @@ function FormularioProvider({ children }) {
   }
 
   //funcion que maneja el envio de la data
-  const sendData = () => {
-    const finalObject = {
-      tipificacion: tipData,
-      valorTextarea: textAreaValue,
+  const sendData = (e) => {
+    e.preventDefault()
+
+    if (tipData.length === 0) {
+      console.log("Aquí se dispararía el error")
+      return
     }
-    console.log('aca se van a enviar los datos de', finalObject)
+
+    const finalObject = {
+      tipificaciones: tipData,
+    }
+    console.log('aca se van a enviar los datos de', Object.entries(finalObject))
   }
 
   // filtro del nivel 1
@@ -248,7 +252,6 @@ function FormularioProvider({ children }) {
     <FormularioContext.Provider
       value={{
         metaData,
-        initialTip,
         setMetaData,
         setAutData,
         setTipData,

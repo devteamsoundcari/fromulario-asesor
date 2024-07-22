@@ -69,7 +69,6 @@ const TipificationRow = ({
           nivel2: valNiv2,
           nivel3: 'N/A',
           nivel4: 'N/A',
-          observaciones: 'N/A',
         },
       }))
     } else {
@@ -91,7 +90,6 @@ const TipificationRow = ({
         nivel2: valNiv2,
         nivel3: value,
         nivel4: 'N/A',
-        observaciones: 'N/A',
       },
     }))
   }
@@ -109,7 +107,6 @@ const TipificationRow = ({
         nivel2: valNiv2,
         nivel3: valNiv3,
         nivel4: value,
-        observaciones: 'N/A',
       },
     }))
   }

@@ -43,11 +43,20 @@ summary {
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-  padding: auto;
+  padding: 0 15px;
+  margin-top: 20px;
+}
+
+.observations-cont label {
+  font-weight: 700;
 }
 
 .button-section {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+}
+
+.blue-primary-btn {
+  height: 44px;
 }

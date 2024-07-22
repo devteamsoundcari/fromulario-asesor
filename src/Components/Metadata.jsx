@@ -70,7 +70,7 @@ const Metadata = () => {
           />
 
           <Button
-            className={'blue-primary-btn'}
+            className={'primary-button'}
             onClick={(e) => cleanData(e, 1)}
             value={'Limpiar formulario'}
             type={'button'}

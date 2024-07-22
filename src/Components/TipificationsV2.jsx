@@ -31,12 +31,19 @@ const TipificationsV2 = () => {
 
     const value = e.target.value
 
-    setTextAreaValue(value)
+    if (value !== '') {
+      setTextAreaValue(value)
 
-    setTipData((prevData) => ({
-      ...prevData,
-      observaciones: value,
-    }))
+      setTipData((prevData) => ({
+        ...prevData,
+        observaciones: value,
+      }))
+    } else {
+      setTipData((prevData) => ({
+        ...prevData,
+        observaciones: 'N/A',
+      }))
+    }
   }
 
   useEffect(() => {
@@ -54,8 +61,7 @@ const TipificationsV2 = () => {
         </span>
       </summary>
 
-      <form action="" method="post">
-
+      <form onSubmit={(e) => sendData(e)} method="post">
         {tipifications && tipifications.length === 0
           ? null
           : tipifications.map((element) => {
@@ -81,7 +87,7 @@ const TipificationsV2 = () => {
         </div>
 
         <div className="observations-cont">
-          <label htmlFor="Description">Descripcion</label>
+          <label htmlFor="Description">Descripción:</label>
           <textarea
             name="valor"
             id="Description"
@@ -92,10 +98,19 @@ const TipificationsV2 = () => {
           ></textarea>
         </div>
 
-        <button onClick={(e) => cleanData(e, 2)}>Limpiar Formulario</button>
-        <button onClick={sendData}>Registar tipificación</button>
+        <div className="button-section">
+          <button className="primary-button" onClick={(e) => cleanData(e, 2)}>
+            Limpiar Formulario
+          </button>
+          <input
+            type="submit"
+            name="send-data"
+            id="send-data"
+            className="blue-primary-btn"
+            value={'Registar tipificación'}
+          />
+        </div>
       </form>
-
     </details>
   )
 }
