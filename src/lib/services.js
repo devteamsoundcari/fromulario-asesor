@@ -12,3 +12,22 @@ export const getTipifications = async () => {
 
   return data
 }
+
+export const getUserInfo = async (
+  baseDocType,
+  baseDocNumber,
+  consultDocType,
+  consultDocNumber
+) => {
+  const body = new FormData()
+  body.append('operation', 'userConsultInformation')
+  body.append('user', 'KbYe*7fB455R')
+  body.append('typeDocument', baseDocType)
+  body.append('numberDocument', baseDocNumber)
+  body.append('typeDocumentConsult', consultDocType)
+  body.append('numberDocumentConsult', consultDocNumber)
+
+  const data = await client.postData(url, body)
+
+  return data
+}

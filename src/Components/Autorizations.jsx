@@ -1,4 +1,6 @@
 import React, { useContext } from 'react'
+import { BiCollapseVertical } from 'react-icons/bi'
+import { formatDate } from '../lib/utils'
 import { FormularioContext } from '../Context/index'
 
 const Autorizations = () => {
@@ -6,9 +8,14 @@ const Autorizations = () => {
 
   return (
     <details>
-      <summary>Últimas Autorizaciones</summary>
+      <summary>
+        Últimas Autorizaciones
+        <span className="icon-span">
+          <BiCollapseVertical />
+        </span>
+      </summary>
       {filteredUser ? (
-        <article>
+        <article className="table-cont">
           <table className="authorizations-table">
             <thead>
               <tr>
@@ -19,26 +26,26 @@ const Autorizations = () => {
                 <th>Producto</th>
                 <th>Estado</th>
                 <th>Nombre prestador</th>
-                <th>Procedimiento / Medicamento</th>
+                {/* <th>Procedimiento / Medicamento</th>
                 <th>Observaciones 1</th>
                 <th>Observaciones 2</th>
-                <th>Observaciones 3</th>
+                <th>Observaciones 3</th> */}
               </tr>
             </thead>
             <tbody>
               {filteredUser.map((user, id) => (
                 <tr key={id}>
-                  <td>{user.numeroAutorizacion}</td>
-                  <td>{user.sucursal}</td>
-                  <td>{user.fechaExpedicion}</td>
-                  <td>{user.fechaExpiracion}</td>
-                  <td>{user.producto}</td>
-                  <td>{user.estado}</td>
-                  <td>{user.nombrePrestador}</td>
-                  <td>{user.procedimientoMedicamento}</td>
+                  <td>{user?.idAuthorization}</td>
+                  <td>{user?.branch}</td>
+                  <td>{formatDate(user?.dateStart)}</td>
+                  <td>{formatDate(user?.dateEnd)}</td>
+                  <td>{user?.product}</td>
+                  <td>{user?.status}</td>
+                  <td>{user?.practitioner}</td>
+                  {/* <td>{user.procedimientoMedicamento}</td>
                   <td>{user.observacion1}</td>
                   <td>{user.observacion2}</td>
-                  <td>{user.observacion3}</td>
+                  <td>{user.observacion3}</td> */}
                 </tr>
               ))}
             </tbody>

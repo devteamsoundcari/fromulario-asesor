@@ -12,7 +12,7 @@ const TipificationsV2 = () => {
     cleanData,
     addLine,
     // formLines,
-    // initialTip,
+    tipError,
     tipData,
     setTipData,
     filtNiv1,
@@ -61,7 +61,11 @@ const TipificationsV2 = () => {
         </span>
       </summary>
 
-      <form onSubmit={(e) => sendData(e)} method="post">
+      {tipError.error ? (
+        <p className="error-message">* {tipError.message}</p>
+      ) : null}
+
+      <form onSubmit={(e) => sendData(e)} method="post" className="form-tip">
         {tipifications && tipifications.length === 0
           ? null
           : tipifications.map((element) => {
@@ -90,7 +94,7 @@ const TipificationsV2 = () => {
           <label htmlFor="Description">Descripción:</label>
           <textarea
             name="valor"
-            id="Description"
+            id="description"
             cols="60"
             rows="10"
             value={textAreaValue}

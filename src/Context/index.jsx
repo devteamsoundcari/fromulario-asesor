@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react'
 // import { tempData } from '../assets/tempData'
-import { getTipifications } from '../lib/services'
+import { getTipifications, getUserInfo } from '../lib/services'
 import { documentTypeList, tempData } from '../lib/hardcoded'
 // import { TipificationRow } from '../Components/TipificationRow'
 import PropTypes from 'prop-types'
@@ -50,6 +50,11 @@ function FormularioProvider({ children }) {
   //array del nivel 3
   const [nivel3, setNivel3] = useState([])
 
+  const [tipError, setTipError] = useState({
+    error: false,
+    message: 'Debe crear al menos una tipificación con el botón "+"',
+  })
+
   //funcion que limpia la información los input
   const cleanData = (e, num) => {
     e.preventDefault()
@@ -60,14 +65,15 @@ function FormularioProvider({ children }) {
         break
       case 2:
         setTipifications([])
-        setTipData((prevData) => ({
-          ...prevData,
-          motivo: '', // Establecer el valor de "motivo" a ""
-        }))
+        setTipData([])
         setNivel1([])
         setNivel2([])
         setNivel3([])
         setTextAreaValue('')
+        setTipError({
+          error: false,
+          message: 'Debe crear al menos una tipificación con el botón "+"',
+        })
         break
     }
   }
@@ -108,16 +114,25 @@ function FormularioProvider({ children }) {
   //funcion que maneja el envio de la data
   const sendData = (e) => {
     e.preventDefault()
+    setTipError((prevData) => ({
+      ...prevData,
+      error: false,
+    }))
 
-    if (tipData.length === 0) {
-      console.log("Aquí se dispararía el error")
+    if (Object.entries(tipData).length === 0) {
+      console.log('Aquí se dispararía el error')
+      setTipError((prevData) => ({
+        ...prevData,
+        error: true,
+        message: 'Debe crear al menos una tipificación con el botón de "+"',
+      }))
       return
     }
 
     const finalObject = {
       tipificaciones: tipData,
     }
-    console.log('aca se van a enviar los datos de', Object.entries(finalObject))
+    console.log('aca se van a enviar los datos de', finalObject)
   }
 
   // filtro del nivel 1
@@ -152,34 +167,43 @@ function FormularioProvider({ children }) {
     }
   }
 
-  //Función para validar el usuario. Tendrá que ser 
-  const validateUser = (e) => {
+  //Función para validar el usuario. Tendrá que ser
+  const validateUser = async (e) => {
     e.preventDefault()
 
     // console.log('Metadata', metaData)
     const docType = metaData.docType
     const docNum = metaData.docNum
 
-    const user = tempData.find(
-      (user) => user.tipoId === docType && user.numeroId === docNum
-    )
+    try {
+      const user = await getUserInfo(docType, docNum)
+      // console.log('User', user)
 
-    if (user) {
-      setUserExist(true)
-      setAutData(user)
-      setFilteredUser(user.autorizaciones)
-      
-    } else {
-      setUserExist(false)
-      setAutData(null)
-      setFilteredUser([])
+      if (user.status && user.status === 200) {
+        setUserExist(true)
+        setAutData(user)
+        setFilteredUser(user.message[0].autorizaciones)
+      } else {
+        setUserExist(false)
+        setAutData(null)
+        setFilteredUser([])
+      }
+
+      // return user === undefined ? false : true
+    } catch (error) {
+      console.error('Error fetching user data:', error)
     }
-
-    return user === undefined ? false : true
   }
 
   //logica que agrega en uno hasta máximo 10 el valor de las tipificaciones
   const addLine = () => {
+    if (tipError.error) {
+      setTipError((prevData) => ({
+        ...prevData,
+        error: false,
+      }))
+    }
+
     if (tipifications.length <= fieldsCount) {
       let number
       for (let i = 0; i < tipifications.length; i++) {
@@ -281,6 +305,7 @@ function FormularioProvider({ children }) {
         tipifications,
         userExist,
         fixData,
+        tipError,
       }}
     >
       {children}

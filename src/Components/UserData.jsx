@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import { documentTypeList } from '../lib/hardcoded'
+import { formatDateWithHour } from '../lib/utils'
 
 const UserData = ({ user }) => {
   const docTypeLabel =
     documentTypeList.find(({ value }) => value === user.tipoId)?.name || ''
+
+  user = user.message[0]
 
   return (
     <div className="user-data">
@@ -13,23 +16,23 @@ const UserData = ({ user }) => {
       </div>
       <div className="tipo-doc">
         <p className="tipo-doc-label">Tipo de documento:</p>
-        <p className="tipo-doc-value">{docTypeLabel}</p>
+        <p className="tipo-doc-value">{user.tipoDocumento}</p>
       </div>
       <div className="num-doc">
         <p className="num-doc-label">Número de documento:</p>
-        <p className="num-doc-value">{user.numeroId}</p>
+        <p className="num-doc-value">{user.numeroDocumento}</p>
       </div>
       <div className="edad">
         <p className="edad-label">Edad:</p>
-        <p className="edad-value">{user.edad}</p>
+        <p className="edad-value">{user.edad} años</p>
       </div>
       <div className="telefono">
         <p className="telefono-label">Teléfono BH:</p>
-        <p className="telefono-value">{user.telefono}</p>
+        <p className="telefono-value">{user.telefonoBH}</p>
       </div>
       <div className="correo">
         <p className="correo-label">Correo BH:</p>
-        <p className="correo-value">{user.correo}</p>
+        <p className="correo-value">{user.correoBH}</p>
       </div>
       <div className="contrato">
         <p className="contrato-label">Contrato:</p>
@@ -41,7 +44,7 @@ const UserData = ({ user }) => {
       </div>
       <div className="telefono-form">
         <p className="telefono-form-label">Teléfono de contacto:</p>
-        <p className="telefono-form-value">{user.telefonoContacto}</p>
+        <p className="telefono-form-value">{user.telefonoFormulario}</p>
       </div>
       <div className="email-form">
         <p className="email-form-label">Correo formulario:</p>
@@ -49,15 +52,15 @@ const UserData = ({ user }) => {
       </div>
       <div className="fecha">
         <p className="fecha-label">Recibida:</p>
-        <p className="fecha-value">{user.fechaConversacion}</p>
+        <p className="fecha-value">{formatDateWithHour(user.recibida)}</p>
       </div>
       <div className="skill">
         <p className="skill-label">Ingresa por:</p>
-        <p className="skill-value">{user.tipificacion}</p>
+        <p className="skill-value">{user.ingresaPor}</p>
       </div>
       <div className="contratos-eps">
         <p className="contratos-eps-label">Contratos de EPS:</p>
-        <p className="contratos-eps-value">{user.contratoEps}</p>
+        <p className="contratos-eps-value">{user.contratosEPS}</p>
       </div>
       <div className="contratos-familia">
         <p className="contratos-familia-label">Contratos y familia:</p>

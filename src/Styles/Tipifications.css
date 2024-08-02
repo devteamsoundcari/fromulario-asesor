@@ -20,6 +20,10 @@ summary {
   cursor: pointer;
 }
 
+.form-tip {
+  margin-bottom: 1.5rem;
+}
+
 .tipifications-sections {
   display: flex;
   flex-direction: row;
@@ -51,12 +55,23 @@ summary {
   font-weight: 700;
 }
 
+#description {
+  font-family: var(--keralty-proxima-nova-main-font);
+  font-size: 20px;
+  padding: 5px 12px;
+  margin-top: 10px;
+}
+
 .button-section {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
 }
 
-.blue-primary-btn {
-  height: 44px;
+.error-message {
+  color: red;
+  font-size: 1.3rem;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-weight: 700;
 }
