@@ -14,7 +14,7 @@ const Autorizations = () => {
           <BiCollapseVertical />
         </span>
       </summary>
-      {filteredUser ? (
+      {filteredUser.lenght > 0 ? (
         <article className="table-cont">
           <table className="authorizations-table">
             <thead>
@@ -52,7 +52,22 @@ const Autorizations = () => {
           </table>
         </article>
       ) : (
-        <h2>Usuario sin Autorizaciones</h2>
+        <article>
+          <table className="authorizations-table">
+            <thead>
+              <tr>
+                <th>Número de autorización</th>
+                <th>Sucursal</th>
+                <th>Fecha de expedición</th>
+                <th>Vigencia hasta</th>
+                <th>Producto</th>
+                <th>Estado</th>
+                <th>Nombre prestador</th>
+              </tr>
+            </thead>
+          </table>
+          <h2>El usuario no tiene Autorizaciones</h2>
+        </article>
       )}
     </details>
   )

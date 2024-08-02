@@ -78,3 +78,8 @@ th {
 .authorizations-table tr {
   text-align: center;
 }
+
+article h2 {
+  padding: 15px 5px;
+  text-align: center;
+}

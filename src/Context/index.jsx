@@ -29,6 +29,8 @@ function FormularioProvider({ children }) {
   const [metaData, setMetaData] = useState(initialData)
   // El usuario existe
   const [userExist, setUserExist] = useState(false)
+  // Data adicional del usuario
+  const [userHeaders, setUserHeaders] = useState({})
   //Estado inicial de la data pagina autorizaciones
   const [autData, setAutData] = useState()
   //Estado inicial de la data en tipificaciones
@@ -131,8 +133,11 @@ function FormularioProvider({ children }) {
 
     const finalObject = {
       tipificaciones: tipData,
+      userInfo: userHeaders,
     }
-    console.log('aca se van a enviar los datos de', finalObject)
+
+    const objArray = [finalObject]
+    console.log('aca se van a enviar los datos de', objArray)
   }
 
   // filtro del nivel 1
@@ -182,7 +187,33 @@ function FormularioProvider({ children }) {
       if (user.status && user.status === 200) {
         setUserExist(true)
         setAutData(user)
-        setFilteredUser(user.message[0].autorizaciones)
+        const autorizaciones =
+          typeof user.message[0].autorizaciones === 'string'
+            ? []
+            : user.message[0].autorizaciones
+        setFilteredUser(autorizaciones)
+        setUserHeaders({
+          bot_client_id: user.message[0].bot_client_id,
+          flux_session_id: user.message[0].flux_session_id,
+          flux_bot_id: user.message[0].flux_bot_id,
+          cod_cia: user.message[0].cod_cia,
+          cod_plan: user.message[0].cod_plan,
+          user_document_type_registered:
+            user.message[0].user_document_type_registered,
+          rol: user.message[0].rol,
+          user_contract_number: user.message[0].user_contract_number,
+          user_contract_name: user.message[0].user_contract_name,
+          user_family_number: user.message[0].user_family_number,
+          user_contract_status: user.message[0].user_contract_status,
+          user_relationship: user.message[0].user_relationship,
+          user_email_bh: user.message[0].user_email_bh,
+          user_cellphone_bh: user.message[0].user_cellphone_bh,
+          term_and_conditions: user.message[0].term_and_conditions,
+          servies_type: user.message[0].servies_type,
+          agent_skill: user.message[0].agent_skill,
+          agent_id: user.message[0].agent_id,
+          agent_name: user.message[0].agent_name,
+        })
       } else {
         setUserExist(false)
         setAutData(null)
