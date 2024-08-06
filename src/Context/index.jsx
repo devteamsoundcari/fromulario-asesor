@@ -1,6 +1,6 @@
 import React, { useState, createContext } from 'react'
 // import { tempData } from '../assets/tempData'
-import { getTipifications, getUserInfo } from '../lib/services'
+import { getTipifications, getUserInfo, registerTags } from '../lib/services'
 import { documentTypeList, tempData } from '../lib/hardcoded'
 // import { TipificationRow } from '../Components/TipificationRow'
 import PropTypes from 'prop-types'
@@ -81,26 +81,63 @@ function FormularioProvider({ children }) {
   }
 
   // funcion que busca el usuario por el número de documento
-  const findUser = (idType, idNumber) => {
-    const docType = idType
-    const docNum = idNumber
+  const findUser = async () => {
+    const initialDocType = initialMetaData.docType
+    const initialdocNum = initialMetaData.docNum
+    const docType = metaData.docType
+    const docNum = metaData.docNum
 
-    // console.log("Tipo", docType, "Numero", docNum)
+    try {
+      const user = await getUserInfo(
+        initialDocType,
+        initialdocNum,
+        docType,
+        docNum
+      )
+      // console.log('User', user.message[0].tipoDocumento)
 
-    const user = tempData.find(
-      (user) => user.tipoId === docType && user.numeroId === docNum
-    )
-
-    // console.log("User", user)
-
-    if (user) {
-      setUserExist(true)
-      setAutData(user)
-      setFilteredUser(user.autorizaciones)
-    } else {
-      setUserExist(false)
-      setAutData(null)
-      setFilteredUser([])
+      if (user.status && user.status === 200) {
+        setUserExist(true)
+        setAutData(user)
+        const autorizaciones =
+          typeof user.message[0].autorizaciones === 'string'
+            ? []
+            : user.message[0].autorizaciones
+        setFilteredUser(autorizaciones)
+        setUserHeaders({
+          bot_client_id: user.message[0].bot_client_id,
+          flux_session_id: user.message[0].flux_session_id,
+          flux_bot_id: user.message[0].flux_bot_id,
+          tipoDocumento: user.message[0].tipoDocumento,
+          numeroDocumento: user.message[0].numeroDocumento,
+          nombre: user.message[0].nombre,
+          telefonoFormulario: user.message[0].telefonoFormulario,
+          correoFormulario: user.message[0].correoFormulario,
+          cod_cia: user.message[0].cod_cia,
+          cod_plan: user.message[0].cod_plan,
+          user_document_type_registered:
+            user.message[0].user_document_type_registered,
+          rol: user.message[0].rol,
+          user_contract_number: user.message[0].user_contract_number,
+          user_contract_name: user.message[0].user_contract_name,
+          user_family_number: user.message[0].user_family_number,
+          user_contract_status: user.message[0].user_contract_status,
+          user_relationship: user.message[0].user_relationship,
+          user_email_bh: user.message[0].user_email_bh,
+          user_cellphone_bh: user.message[0].user_cellphone_bh,
+          term_and_conditions: user.message[0].term_and_conditions,
+          servies_type: user.message[0].servies_type,
+          agent_skill: user.message[0].agent_skill,
+          agent_id: user.message[0].agent_id,
+          agent_name: user.message[0].agent_name,
+        })
+      } else {
+        setUserExist(false)
+        setAutData(null)
+        setFilteredUser([])
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error)
     }
   }
 
@@ -114,7 +151,7 @@ function FormularioProvider({ children }) {
   }
 
   //funcion que maneja el envio de la data
-  const sendData = (e) => {
+  const sendData = async (e) => {
     e.preventDefault()
     setTipError((prevData) => ({
       ...prevData,
@@ -122,7 +159,7 @@ function FormularioProvider({ children }) {
     }))
 
     if (Object.entries(tipData).length === 0) {
-      console.log('Aquí se dispararía el error')
+      // console.log('Aquí se dispararía el error')
       setTipError((prevData) => ({
         ...prevData,
         error: true,
@@ -131,6 +168,8 @@ function FormularioProvider({ children }) {
       return
     }
 
+    // console.log(userHeaders)
+
     const finalObject = {
       tipificaciones: tipData,
       userInfo: userHeaders,
@@ -138,6 +177,9 @@ function FormularioProvider({ children }) {
 
     const objArray = [finalObject]
     console.log('aca se van a enviar los datos de', objArray)
+
+    const res = await registerTags(objArray)
+    console.log('Response register Tags', res)
   }
 
   // filtro del nivel 1
@@ -177,12 +219,19 @@ function FormularioProvider({ children }) {
     e.preventDefault()
 
     // console.log('Metadata', metaData)
+    const initialDocType = initialMetaData.docType
+    const initialdocNum = initialMetaData.docNum
     const docType = metaData.docType
     const docNum = metaData.docNum
 
     try {
-      const user = await getUserInfo(docType, docNum)
-      // console.log('User', user)
+      const user = await getUserInfo(
+        initialDocType,
+        initialdocNum,
+        docType,
+        docNum
+      )
+      // console.log('User', user.message)
 
       if (user.status && user.status === 200) {
         setUserExist(true)
@@ -196,6 +245,11 @@ function FormularioProvider({ children }) {
           bot_client_id: user.message[0].bot_client_id,
           flux_session_id: user.message[0].flux_session_id,
           flux_bot_id: user.message[0].flux_bot_id,
+          conversationId: user.message[0].conversationId,
+          tipoDocumento: user.message[0].tipoDocumento,
+          numeroDocumento: user.message[0].numeroDocumento,
+          user_form_phone: user.message[0].telefonoFormulario,
+          user_form_email: user.message[0].correoFormulario,
           cod_cia: user.message[0].cod_cia,
           cod_plan: user.message[0].cod_plan,
           user_document_type_registered:
@@ -279,10 +333,9 @@ function FormularioProvider({ children }) {
   }
 
   React.useEffect(() => {
-    const { docType, docNum } = initialMetaData
     setMetaData(initialMetaData)
-    if (conversationId && typeDocument && numberDocument) {
-      findUser(docType, docNum)
+    if (typeDocument && numberDocument) {
+      findUser()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

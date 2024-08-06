@@ -14,7 +14,7 @@ const Autorizations = () => {
           <BiCollapseVertical />
         </span>
       </summary>
-      {filteredUser.lenght > 0 ? (
+      {filteredUser?.length > 0 ? (
         <article className="table-cont">
           <table className="authorizations-table">
             <thead>

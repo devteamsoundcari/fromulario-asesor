@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 import { FormularioContext } from '../Context'
 import { Input } from '../Atoms/Input'
 import PropTypes from 'prop-types'
-import { FaTrashAlt } from "react-icons/fa";
+import { FaTrashAlt } from 'react-icons/fa'
 import '../styles/TipificationRow.css'
 
 const TipificationRow = ({
@@ -13,6 +13,7 @@ const TipificationRow = ({
   filtNiv3,
   setTipData,
   number,
+  textAreaValue,
 }) => {
   const { data, removeLine } = useContext(FormularioContext)
   const [localMotivo, setLocalMotivo] = useState(motivo)
@@ -184,8 +185,8 @@ const TipificationRow = ({
           />
         </div>
         <div className="delete-row">
-          <button className='delete-btn' onClick={() => removeLine(id)}>
-          <FaTrashAlt />
+          <button className="delete-btn" onClick={() => removeLine(id)}>
+            <FaTrashAlt />
           </button>
         </div>
       </div>

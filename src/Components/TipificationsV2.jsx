@@ -33,16 +33,33 @@ const TipificationsV2 = () => {
 
     if (value !== '') {
       setTextAreaValue(value)
+      console.log(tipData)
 
-      setTipData((prevData) => ({
-        ...prevData,
-        observaciones: value,
-      }))
+      Object.entries(tipData).map((element, i) => {
+        // console.log('Element', element)
+        // console.log(element[0])
+        const id = element[0].split('tipificacion')[1]
+        setTipData((prevData) => ({
+          ...prevData,
+          [`tipificacion${id}`]: {
+            ...prevData[`tipificacion${id}`],
+            observaciones: value,
+          },
+        }))
+      })
     } else {
-      setTipData((prevData) => ({
-        ...prevData,
-        observaciones: 'N/A',
-      }))
+      setTextAreaValue('N/A')
+
+      const id = element[0].split('tipificacion')[1]
+      Object.entries(tipData).map((element) => {
+        setTipData((prevData) => ({
+          ...prevData,
+          [`tipificacion${id}`]: {
+            ...prevData[`tipificacion${id}`],
+            observaciones: value,
+          },
+        }))
+      })
     }
   }
 
@@ -97,7 +114,7 @@ const TipificationsV2 = () => {
             id="description"
             cols="60"
             rows="10"
-            value={textAreaValue}
+            value={textAreaValue === 'N/A' ? '' : textAreaValue}
             onChange={textAreaOnChange}
           ></textarea>
         </div>

@@ -3,6 +3,7 @@ import { documentTypeList } from '../lib/hardcoded'
 import { formatDateWithHour } from '../lib/utils'
 
 const UserData = ({ user }) => {
+  // console.log(user)
   const docTypeLabel =
     documentTypeList.find(({ value }) => value === user.tipoId)?.name || ''
 
@@ -24,7 +25,7 @@ const UserData = ({ user }) => {
       </div>
       <div className="edad">
         <p className="edad-label">Edad:</p>
-        <p className="edad-value">{user.edad} años</p>
+        <p className="edad-value">{user.edad}</p>
       </div>
       <div className="telefono">
         <p className="telefono-label">Teléfono BH:</p>
