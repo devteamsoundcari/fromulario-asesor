@@ -108,6 +108,7 @@ function FormularioProvider({ children }) {
           bot_client_id: user.message[0].bot_client_id,
           flux_session_id: user.message[0].flux_session_id,
           flux_bot_id: user.message[0].flux_bot_id,
+          idConversacion: user.message[0].idConversacion,
           tipoDocumento: user.message[0].tipoDocumento,
           numeroDocumento: user.message[0].numeroDocumento,
           nombre: user.message[0].nombre,
@@ -245,7 +246,7 @@ function FormularioProvider({ children }) {
           bot_client_id: user.message[0].bot_client_id,
           flux_session_id: user.message[0].flux_session_id,
           flux_bot_id: user.message[0].flux_bot_id,
-          conversationId: user.message[0].conversationId,
+          idConversacion: user.message[0].idConversacion,
           tipoDocumento: user.message[0].tipoDocumento,
           numeroDocumento: user.message[0].numeroDocumento,
           user_form_phone: user.message[0].telefonoFormulario,
@@ -390,6 +391,7 @@ function FormularioProvider({ children }) {
         userExist,
         fixData,
         tipError,
+        fieldsCount,
       }}
     >
       {children}

@@ -11,7 +11,7 @@ const TipificationsV2 = () => {
   const {
     cleanData,
     addLine,
-    // formLines,
+    fieldsCount,
     tipError,
     tipData,
     setTipData,
@@ -101,7 +101,13 @@ const TipificationsV2 = () => {
               )
             })}
 
-        <div className="add-row-btn-cont">
+        <div
+          className={
+            fieldsCount >= tipifications.length
+              ? 'add-row-btn-cont'
+              : 'add-row-btn-cont-d'
+          }
+        >
           <span onClick={addLine}>
             <img src={plusIcon} alt="icono de más" className="tip-icon" />
           </span>

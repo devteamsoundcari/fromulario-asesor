@@ -36,11 +36,11 @@ export const registerTags = async (data) => {
   const formData = new FormData()
   formData.append('operation', 'userRegisterInformationTags')
   formData.append('user', 'KbYe*7fB455R')
-  formData.append('data', data)
+  formData.append('data', JSON.stringify(data)) // Esperando confirmación si se hace el JSON.stringify o no
 
   try {
     const data = await client.postData(url, formData)
-    console.log('Response register Tags', data)
+    // console.log('Response register Tags', data)
 
     if (data.status === 200) {
       return data
