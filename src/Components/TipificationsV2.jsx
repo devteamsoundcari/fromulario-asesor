@@ -33,7 +33,7 @@ const TipificationsV2 = () => {
 
     if (value !== '') {
       setTextAreaValue(value)
-      console.log(tipData)
+      // console.log(tipData)
 
       Object.entries(tipData).map((element, i) => {
         // console.log('Element', element)
