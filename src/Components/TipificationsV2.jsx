@@ -50,8 +50,8 @@ const TipificationsV2 = () => {
     } else {
       setTextAreaValue('N/A')
 
-      const id = element[0].split('tipificacion')[1]
       Object.entries(tipData).map((element) => {
+        const id = element[0].split('tipificacion')[1]
         setTipData((prevData) => ({
           ...prevData,
           [`tipificacion${id}`]: {

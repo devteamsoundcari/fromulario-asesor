@@ -52,18 +52,28 @@ function FormularioProvider({ children }) {
   //array del nivel 3
   const [nivel3, setNivel3] = useState([])
 
+  // Errores para cuando se crea una tipificación o no hay un usuario seleccionado
   const [tipError, setTipError] = useState({
     error: false,
     message: 'Debe crear al menos una tipificación con el botón "+"',
   })
+
+  const [loading, setLoading] = useState(true)
 
   //funcion que limpia la información los input
   const cleanData = (e, num) => {
     e.preventDefault()
     switch (num) {
       case 1:
-        setMetaData(initialData)
-        setFilteredUser([initialTip])
+        setMetaData((prevData) => {
+          return {
+            ...prevData,
+            docType: '',
+            docNum: '',
+          }
+        })
+        setFilteredUser([])
+        setUserExist(false)
         break
       case 2:
         setTipifications([])
@@ -96,7 +106,9 @@ function FormularioProvider({ children }) {
       )
       // console.log('User', user.message[0].tipoDocumento)
 
+      setLoading(true)
       if (user.status && user.status === 200) {
+        setLoading(false)
         setUserExist(true)
         setAutData(user)
         const autorizaciones =
@@ -136,6 +148,7 @@ function FormularioProvider({ children }) {
         setUserExist(false)
         setAutData(null)
         setFilteredUser([])
+        setLoading(false)
       }
     } catch (error) {
       console.error('Error fetching user data:', error)
@@ -169,6 +182,18 @@ function FormularioProvider({ children }) {
       return
     }
 
+    if (
+      userHeaders.nombre === null ||
+      userHeaders.tipoDocumento === null ||
+      userHeaders.numeroDocumento === null
+    ) {
+      setTipError((prevData) => ({
+        ...prevData,
+        error: true,
+        message: 'No puede enviar tipificaciones sin haber buscado un usuario',
+      }))
+    }
+
     // console.log(userHeaders)
 
     const finalObject = {
@@ -177,10 +202,10 @@ function FormularioProvider({ children }) {
     }
 
     const objArray = [finalObject]
-    console.log('aca se van a enviar los datos de', objArray)
+    // console.log('aca se van a enviar los datos de', objArray)
 
     const res = await registerTags(objArray)
-    console.log('Response register Tags', res)
+    // console.log('Response register Tags', res)
   }
 
   // filtro del nivel 1
@@ -234,7 +259,9 @@ function FormularioProvider({ children }) {
       )
       // console.log('User', user.message)
 
+      setLoading(true)
       if (user.status && user.status === 200) {
+        setLoading(false)
         setUserExist(true)
         setAutData(user)
         const autorizaciones =
@@ -273,6 +300,7 @@ function FormularioProvider({ children }) {
         setUserExist(false)
         setAutData(null)
         setFilteredUser([])
+        setLoading(false)
       }
 
       // return user === undefined ? false : true
@@ -392,6 +420,7 @@ function FormularioProvider({ children }) {
         fixData,
         tipError,
         fieldsCount,
+        loading,
       }}
     >
       {children}

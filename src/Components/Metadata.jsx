@@ -6,10 +6,18 @@ import { BiCollapseVertical } from 'react-icons/bi'
 import { documentTypeList } from '../lib/hardcoded'
 import '../styles/Metadata.css'
 import { UserData } from './UserData'
+import Loader from '../Atoms/Loader'
 
 const Metadata = () => {
-  const { metaData, setMetaData, cleanData, validateUser, autData, userExist } =
-    useContext(FormularioContext)
+  const {
+    metaData,
+    setMetaData,
+    cleanData,
+    validateUser,
+    autData,
+    userExist,
+    loading,
+  } = useContext(FormularioContext)
 
   const { docType, docNum } = metaData
 
@@ -24,11 +32,11 @@ const Metadata = () => {
   }
 
   // useEffect(() => {
-  //   // console.log('MetaData', metaData)
+  //   console.log('Log loading', loading)
   // }, [metaData])
 
   return (
-    <details>
+    <details open>
       <summary>
         Metadata
         <span className="icon-span">
@@ -36,7 +44,12 @@ const Metadata = () => {
         </span>
       </summary>
 
-      <form method="POST" className="metadata-form" id="metadataForm" name="metadataForm">
+      <form
+        method="POST"
+        className="metadata-form"
+        id="metadataForm"
+        name="metadataForm"
+      >
         <div className="input-cont">
           <label htmlFor="docType">Tipo de documento</label>
           <select
@@ -78,7 +91,9 @@ const Metadata = () => {
         </div>
       </form>
 
-      {userExist ? <UserData user={autData} /> : null}
+      <div>
+        {loading ? <Loader /> : userExist ? <UserData user={autData} /> : null}
+      </div>
     </details>
   )
 }

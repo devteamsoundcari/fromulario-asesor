@@ -2,7 +2,12 @@ import React from 'react'
 import '../styles/Loader.css'
 
 const Loader = () => {
-  return <span className="loader"></span>
+  return (
+    /* From Uiverse.io by Donewenfu */
+    <div className="loader">
+      <div className="justify-content-center jimu-primary-loading"></div>
+    </div>
+  )
 }
 
 export default Loader
