@@ -5,6 +5,7 @@ import { FormularioContext } from '../Context/index'
 
 const Autorizations = () => {
   const { filteredUser } = useContext(FormularioContext)
+  // console.log(filteredUser)
 
   return (
     <details>
@@ -26,8 +27,8 @@ const Autorizations = () => {
                 <th>Producto</th>
                 <th>Estado</th>
                 <th>Nombre prestador</th>
-                {/* <th>Procedimiento / Medicamento</th>
-                <th>Observaciones 1</th>
+                <th>Procedimiento / Medicamento</th>
+                {/* <th>Observaciones 1</th>
                 <th>Observaciones 2</th>
                 <th>Observaciones 3</th> */}
               </tr>
@@ -42,8 +43,8 @@ const Autorizations = () => {
                   <td>{user?.product}</td>
                   <td>{user?.status}</td>
                   <td>{user?.practitioner}</td>
-                  {/* <td>{user.procedimientoMedicamento}</td>
-                  <td>{user.observacion1}</td>
+                  <td>{user.category}</td>
+                  {/* <td>{user.observacion1}</td>
                   <td>{user.observacion2}</td>
                   <td>{user.observacion3}</td> */}
                 </tr>

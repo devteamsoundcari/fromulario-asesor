@@ -114,7 +114,7 @@ const TipificationsV2 = () => {
         </div>
 
         <div className="observations-cont">
-          <label htmlFor="Description">Descripción:</label>
+          <label htmlFor="description">Observaciones:</label>
           <textarea
             name="valor"
             id="description"
@@ -127,14 +127,14 @@ const TipificationsV2 = () => {
 
         <div className="button-section">
           <button className="primary-button" onClick={(e) => cleanData(e, 2)}>
-            Limpiar Formulario
+            Limpiar tipificaciones
           </button>
           <input
             type="submit"
             name="send-data"
             id="send-data"
             className="blue-primary-btn"
-            value={'Registar tipificación'}
+            value={'Enviar formulario'}
           />
         </div>
       </form>

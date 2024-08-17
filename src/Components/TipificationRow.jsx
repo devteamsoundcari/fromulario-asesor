@@ -13,7 +13,6 @@ const TipificationRow = ({
   filtNiv3,
   setTipData,
   number,
-  textAreaValue,
 }) => {
   const { data, removeLine } = useContext(FormularioContext)
   const [localMotivo, setLocalMotivo] = useState(motivo)
@@ -25,37 +24,85 @@ const TipificationRow = ({
   const [valNiv3, setValNiv3] = useState('')
   const [valNiv4, setValNiv4] = useState('')
   const [localDisabled, setLocalDisabled] = useState(false)
-
-  // useEffect(() => {
-  //   // console.log(data)
-  //   if (localMotivo) {
-  //     filtNiv1(localMotivo)
-  //   }
-  // }, [localMotivo, filtNiv1])
+  const [errors, setErrors] = useState({
+    motivoError: false,
+    nivel1Error: false,
+    nivel2Error: false,
+    nivel3Error: false,
+  })
 
   const reasonOnChange = async (e) => {
     e.preventDefault()
     const value = e.target.value
     setLocalMotivo(value)
-    const niv1 = await filtNiv1(value)
-    setLocalNivel1(niv1)
-    setLocalNivel2([])
-    setLocalNivel3([])
+
+    if (value === '') {
+      setLocalNivel1([])
+      setLocalNivel2([])
+      setLocalNivel3([])
+      setLocalDisabled(false)
+      setErrors({
+        motivoError: true,
+      })
+      return
+    } else {
+      setErrors(() => ({
+        ...errors,
+        motivoError: false,
+      }))
+      const niv1 = await filtNiv1(value)
+      setLocalNivel1(niv1)
+      setLocalNivel2([])
+      setLocalNivel3([])
+    }
   }
 
   const level1OnChange = async (e) => {
     e.preventDefault()
     const value = e.target.value
     setValNiv1(value)
+
+    if (value === '') {
+      setLocalNivel2([])
+      setLocalNivel3([])
+      setLocalDisabled(false)
+      setErrors((prev) => ({
+        ...prev,
+        nivel1Error: true,
+      }))
+      return
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        nivel1Error: false,
+      }))
+      const niv2 = await filtNiv2(value)
+      setLocalNivel2(niv2)
+      setLocalNivel3([])
+    }
+
     // console.log('En tip row component', value)
-    const niv2 = await filtNiv2(value)
-    setLocalNivel2(niv2)
-    setLocalNivel3([])
   }
 
   const level2OnChange = async (e) => {
     e.preventDefault()
     const value = e.target.value
+
+    if (value === '') {
+      setLocalNivel3([])
+      setLocalDisabled(false)
+      setErrors((prev) => ({
+        ...prev,
+        nivel2Error: true,
+      }))
+      return
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        nivel2Error: false,
+      }))
+    }
+
     setValNiv2(value)
     const niv3 = await filtNiv3(value)
 
@@ -82,6 +129,21 @@ const TipificationRow = ({
     e.preventDefault()
     const value = e.target.value
     setValNiv3(value)
+
+    if (value === '' && !localDisabled) {
+      setLocalDisabled(false)
+      setErrors((prev) => ({
+        ...prev,
+        nivel3Error: true,
+      }))
+      return
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        nivel3Error: false,
+      }))
+    }
+
     // Actualizar el estado del componente padre con los datos de la tipificación
     setTipData((prev) => ({
       ...prev,
@@ -89,7 +151,7 @@ const TipificationRow = ({
         motivo: localMotivo,
         nivel1: valNiv1,
         nivel2: valNiv2,
-        nivel3: value,
+        nivel3: value === '' ? 'N/A' : value,
         nivel4: 'N/A',
       },
     }))
@@ -135,43 +197,65 @@ const TipificationRow = ({
                 </option>
               ))}
             </select>
+            {errors.motivoError && (
+              <p className="error-par">No puedes dejar el motivo vacío</p>
+            )}
           </div>
-          <Input
-            type={'select-tip'}
-            label={'Nivel 1'}
-            onChange={level1OnChange}
-            options={localNivel1}
-            value={valNiv1} // Se puede ajustar según sea necesario
-            name={'nivel-1'}
-            id={`motivo-${id}-level-1`}
-            required={true}
-            disabled={false}
-            className={'selector level-1'}
-          />
-          <Input
-            type={'select-tip'}
-            label={'Nivel 2'}
-            onChange={level2OnChange}
-            options={localNivel2}
-            value={valNiv2} // Se puede ajustar según sea necesario
-            name={'nivel-2'}
-            id={`motivo-${id}-level-2`}
-            required={true}
-            disabled={false}
-            className={'selector level-2'}
-          />
-          <Input
-            type={'select-tip'}
-            label={'Nivel 3'}
-            onChange={level3OnChange}
-            options={localNivel3}
-            value={valNiv3} // Se puede ajustar según sea necesario
-            name={'nivel-3'}
-            id={`motivo-${id}-level-3`}
-            required={false}
-            disabled={localDisabled}
-            className={'selector level-3'}
-          />
+
+          <div className="level-row">
+            <Input
+              type={'select-tip'}
+              label={'Nivel 1'}
+              onChange={level1OnChange}
+              options={localNivel1}
+              value={valNiv1} // Se puede ajustar según sea necesario
+              name={'nivel-1'}
+              id={`motivo-${id}-level-1`}
+              required={true}
+              disabled={false}
+              className={'selector level-1'}
+            />
+            {errors.nivel1Error && (
+              <p className="error-par">No puedes dejar este nivel vacío</p>
+            )}
+          </div>
+
+          <div className="level-row">
+            <Input
+              type={'select-tip'}
+              label={'Nivel 2'}
+              onChange={level2OnChange}
+              options={localNivel2}
+              value={valNiv2} // Se puede ajustar según sea necesario
+              name={'nivel-2'}
+              id={`motivo-${id}-level-2`}
+              required={true}
+              disabled={false}
+              className={'selector level-2'}
+            />
+            {errors.nivel2Error && (
+              <p className="error-par">No puedes dejar este nivel vacío</p>
+            )}
+          </div>
+
+          <div className="level-row">
+            <Input
+              type={'select-tip'}
+              label={'Nivel 3'}
+              onChange={level3OnChange}
+              options={localNivel3}
+              value={valNiv3} // Se puede ajustar según sea necesario
+              name={'nivel-3'}
+              id={`motivo-${id}-level-3`}
+              required={false}
+              disabled={localDisabled}
+              className={'selector level-3'}
+            />
+            {errors.nivel3Error && (
+              <p className="error-par">No puedes dejar este nivel vacío</p>
+            )}
+          </div>
+
           <Input
             type={'text'}
             label={'Nivel 4'}

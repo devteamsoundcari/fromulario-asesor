@@ -78,7 +78,7 @@ const Metadata = () => {
           <Button
             className={'blue-primary-btn'}
             onClick={(e) => validateUser(e)}
-            value={'Buscar usario - Nueva Atención'}
+            value={'Buscar usuario - Nueva Atención'}
             type={'button'}
           />
 

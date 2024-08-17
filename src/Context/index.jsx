@@ -206,6 +206,7 @@ function FormularioProvider({ children }) {
 
     const res = await registerTags(objArray)
     // console.log('Response register Tags', res)
+    cleanData(e, 2)
   }
 
   // filtro del nivel 1

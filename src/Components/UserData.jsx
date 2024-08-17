@@ -43,6 +43,10 @@ const UserData = ({ user }) => {
         <p className="plan-label">Plan:</p>
         <p className="plan-value">{user.plan}</p>
       </div>
+      <div className="ciudad">
+        <p className="ciudad-label">Ciudad:</p>
+        <p className="ciudad-value">{user.ciudad}</p>
+      </div>
       <div className="telefono-form">
         <p className="telefono-form-label">Teléfono de contacto:</p>
         <p className="telefono-form-value">{user.telefonoFormulario}</p>
@@ -70,6 +74,12 @@ const UserData = ({ user }) => {
       <div className="id-conversacion">
         <p className="id-conversacion-label">Id conversación:</p>
         <p className="id-conversacion-value">{user.idConversacion}</p>
+      </div>
+      <div className="canal-conversacion">
+        <p className="canal-conversacion-label">Canal:</p>
+        <p className="canal-conversacion-value">
+          Asesor en línea - Portal de usuarios MP
+        </p>
       </div>
     </div>
   )

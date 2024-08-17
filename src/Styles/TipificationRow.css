@@ -66,3 +66,14 @@
   margin: 20px 0;
   border-radius: 10px;
 }
+
+.level-row {
+  display: flex;
+  align-items: center;
+}
+
+.error-par {
+  color: var(--keralty-semantics-error);
+  margin-left: 12px;
+  font-weight: 600;
+}
