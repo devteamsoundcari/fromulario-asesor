@@ -257,7 +257,7 @@ const TipificationRow = ({
           </div>
 
           <Input
-            type={'text'}
+            type={'textarea'}
             label={'Nivel 4'}
             onChange={level4OnChange}
             placeHolder={'Observaciones...'}

@@ -21,6 +21,17 @@
   margin-right: 10px;
 }
 
+.selector,
+.texto {
+  width: 890px;
+}
+
+.level-4 {
+  font-family: var(--keralty-proxima-nova-main-font);
+  padding: 0.5rem 0.5rem;
+  align-items: flex-start;
+}
+
 .default {
   margin-right: 10px;
   font-weight: 600;

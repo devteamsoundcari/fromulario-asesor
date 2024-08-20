@@ -146,6 +146,21 @@ const Input = ({
         </>
       )
     }
+
+    if (type === 'textarea') {
+      return (
+        <textarea
+          cols="60"
+          rows="10"
+          placeholder={placeHolder}
+          name={name}
+          id={id}
+          value={value}
+          onChange={onChange}
+          className={className}
+        ></textarea>
+      )
+    }
     // if (type === "userName") {
     //   return (
     //     <input
