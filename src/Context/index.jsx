@@ -199,6 +199,7 @@ function FormularioProvider({ children }) {
     const finalObject = {
       tipificaciones: tipData,
       userInfo: userHeaders,
+      observaciones: textAreaValue,
     }
 
     const objArray = [finalObject]

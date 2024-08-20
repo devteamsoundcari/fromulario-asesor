@@ -35,31 +35,27 @@ const TipificationsV2 = () => {
       setTextAreaValue(value)
       // console.log(tipData)
 
-      Object.entries(tipData).map((element, i) => {
-        // console.log('Element', element)
-        // console.log(element[0])
-        const id = element[0].split('tipificacion')[1]
-        setTipData((prevData) => ({
-          ...prevData,
-          [`tipificacion${id}`]: {
-            ...prevData[`tipificacion${id}`],
-            observaciones: value,
-          },
-        }))
-      })
+      // Object.entries(tipData).map((element, i) => {
+      //   // console.log('Element', element)
+      //   // console.log(element[0])
+      //   const id = element[0].split('tipificacion')[1]
+      //   // setTipData((prevData) => ({
+      //   //   ...prevData,
+      //   //   observaciones: value,
+      //   // }))
+      //   setTextAreaValue(value)
+      // })
     } else {
       setTextAreaValue('N/A')
 
-      Object.entries(tipData).map((element) => {
-        const id = element[0].split('tipificacion')[1]
-        setTipData((prevData) => ({
-          ...prevData,
-          [`tipificacion${id}`]: {
-            ...prevData[`tipificacion${id}`],
-            observaciones: value,
-          },
-        }))
-      })
+      // Object.entries(tipData).map((element) => {
+      //   const id = element[0].split('tipificacion')[1]
+      //   // setTipData((prevData) => ({
+      //   //   ...prevData,
+      //   //   observaciones: value,
+      //   // }))
+      //   setTextAreaValue(value)
+      // })
     }
   }
 
