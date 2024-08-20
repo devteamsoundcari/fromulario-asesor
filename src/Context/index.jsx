@@ -278,8 +278,9 @@ function FormularioProvider({ children }) {
           idConversacion: user.message[0].idConversacion,
           tipoDocumento: user.message[0].tipoDocumento,
           numeroDocumento: user.message[0].numeroDocumento,
-          user_form_phone: user.message[0].telefonoFormulario,
-          user_form_email: user.message[0].correoFormulario,
+          nombre: user.message[0].nombre,
+          telefonoFormulario: user.message[0].telefonoFormulario,
+          correoFormulario: user.message[0].correoFormulario,
           cod_cia: user.message[0].cod_cia,
           cod_plan: user.message[0].cod_plan,
           user_document_type_registered:
