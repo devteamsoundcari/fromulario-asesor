@@ -96,6 +96,7 @@ function FormularioProvider({ children }) {
     const initialdocNum = initialMetaData.docNum
     const docType = metaData.docType
     const docNum = metaData.docNum
+    setLoading(true)
 
     try {
       const user = await getUserInfo(
@@ -106,7 +107,6 @@ function FormularioProvider({ children }) {
       )
       // console.log('User', user.message[0].tipoDocumento)
 
-      setLoading(true)
       if (user.status && user.status === 200) {
         setLoading(false)
         setUserExist(true)
@@ -252,6 +252,7 @@ function FormularioProvider({ children }) {
     const docType = metaData.docType
     const docNum = metaData.docNum
 
+    setLoading(true)
     try {
       const user = await getUserInfo(
         initialDocType,
@@ -261,7 +262,6 @@ function FormularioProvider({ children }) {
       )
       // console.log('User', user.message)
 
-      setLoading(true)
       if (user.status && user.status === 200) {
         setLoading(false)
         setUserExist(true)
