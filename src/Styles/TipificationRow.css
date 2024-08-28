@@ -21,6 +21,10 @@
   margin-right: 10px;
 }
 
+#docNumLabel {
+  font-weight: 400;
+}
+
 .selector,
 .texto {
   width: 890px;

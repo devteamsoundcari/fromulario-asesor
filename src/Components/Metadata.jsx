@@ -17,6 +17,7 @@ const Metadata = () => {
     autData,
     userExist,
     loading,
+    userError,
   } = useContext(FormularioContext)
 
   const { docType, docNum } = metaData
@@ -66,11 +67,12 @@ const Metadata = () => {
           </select>
           <Input
             type={'text'}
-            label={'Ingrese el número de documento'}
+            label={'Número de documento'}
             onChange={onChange}
             value={docNum}
             name={'docNum'}
             id={'docNum'}
+            labelId={'docNumLabel'}
           />
         </div>
 
@@ -92,6 +94,10 @@ const Metadata = () => {
       </form>
 
       <div>
+        {userError.error ? (
+          <p className="error-message">{userError.message}</p>
+        ) : null}
+
         {loading ? <Loader /> : userExist ? <UserData user={autData} /> : null}
       </div>
     </details>

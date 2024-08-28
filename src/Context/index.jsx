@@ -52,6 +52,12 @@ function FormularioProvider({ children }) {
   //array del nivel 3
   const [nivel3, setNivel3] = useState([])
 
+  // Errores de validación de usuario
+  const [userError, setUserError] = useState({
+    error: false,
+    message: '',
+  })
+
   // Errores para cuando se crea una tipificación o no hay un usuario seleccionado
   const [tipError, setTipError] = useState({
     error: false,
@@ -253,6 +259,25 @@ function FormularioProvider({ children }) {
     const docNum = metaData.docNum
 
     setLoading(true)
+
+    /**  Vlidamos que la consulta lleve si o si el tipo de documento */
+    if (docType === '' || docNum === '') {
+      setLoading(false)
+      setUserExist(false)
+      setAutData(null)
+      setFilteredUser([])
+      setUserError({
+        error: true,
+        message: 'Faltan datos para poder buscar un usuario',
+      })
+      return
+    } else {
+      setUserError({
+        error: false,
+        message: '',
+      })
+    }
+
     try {
       const user = await getUserInfo(
         initialDocType,
@@ -298,6 +323,15 @@ function FormularioProvider({ children }) {
           agent_skill: user.message[0].agent_skill,
           agent_id: user.message[0].agent_id,
           agent_name: user.message[0].agent_name,
+        })
+      } else if (user.status && user.status === 400) {
+        setLoading(false)
+        setUserExist(false)
+        setAutData(null)
+        setFilteredUser([])
+        setUserError({
+          error: true,
+          message: 'Faltan datos para poder buscar un usuario',
         })
       } else {
         setUserExist(false)
@@ -424,6 +458,8 @@ function FormularioProvider({ children }) {
         tipError,
         fieldsCount,
         loading,
+        userError,
+        setUserError,
       }}
     >
       {children}
