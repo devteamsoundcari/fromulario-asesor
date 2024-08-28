@@ -55,6 +55,12 @@ summary {
   font-weight: 700;
 }
 
+.add-disabled {
+  pointer-events: none;
+  cursor: default;
+  color: #f5f5f5;
+}
+
 #description {
   font-family: var(--keralty-proxima-nova-main-font);
   font-size: 20px;

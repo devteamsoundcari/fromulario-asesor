@@ -94,7 +94,7 @@ const Metadata = () => {
       </form>
 
       <div>
-        {userError.error ? (
+        {userError.error && userError.errorType === 400 ? (
           <p className="error-message">{userError.message}</p>
         ) : null}
 

@@ -61,6 +61,7 @@ function FormularioProvider({ children }) {
   // Errores para cuando se crea una tipificación o no hay un usuario seleccionado
   const [tipError, setTipError] = useState({
     error: false,
+    errorType: 0,
     message: 'Debe crear al menos una tipificación con el botón "+"',
   })
 
@@ -259,6 +260,10 @@ function FormularioProvider({ children }) {
     const docNum = metaData.docNum
 
     setLoading(true)
+    setTipError({
+      error: false,
+      message: 'Debe crear al menos una tipificación con el botón "+"',
+    })
 
     /**  Vlidamos que la consulta lleve si o si el tipo de documento */
     if (docType === '' || docNum === '') {
@@ -331,7 +336,18 @@ function FormularioProvider({ children }) {
         setFilteredUser([])
         setUserError({
           error: true,
+          errorType: 400,
           message: 'Faltan datos para poder buscar un usuario',
+        })
+      } else if (user.status && user.status === 404) {
+        setLoading(false)
+        setUserExist(false)
+        setAutData(null)
+        setFilteredUser([])
+        setUserError({
+          error: true,
+          errorType: 404,
+          message: 'Usuario no encontrado',
         })
       } else {
         setUserExist(false)
