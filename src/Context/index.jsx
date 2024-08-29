@@ -84,6 +84,13 @@ function FormularioProvider({ children }) {
         })
         setFilteredUser([])
         setUserExist(false)
+        setAutData(null)
+        setFilteredUser([])
+        setUserError({
+          error: false,
+          errorType: 0,
+          message: '',
+        })
         break
       case 2:
         setTipifications([])
