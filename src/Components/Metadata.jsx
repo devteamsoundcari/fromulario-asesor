@@ -18,6 +18,9 @@ const Metadata = () => {
     userExist,
     loading,
     userError,
+    setUserError,
+    searchUserDisabled,
+    setSearchUserDisabled,
   } = useContext(FormularioContext)
 
   const { docType, docNum } = metaData
@@ -26,6 +29,20 @@ const Metadata = () => {
     event.preventDefault()
     const name = event.target.name
     const valor = event.target.value
+
+    if (
+      (name === 'docType' && valor !== '') ||
+      (name === 'docNum' && valor !== '')
+    ) {
+      setSearchUserDisabled(false)
+    } else {
+      setSearchUserDisabled(true)
+      setUserError({
+        error: false,
+        message: '',
+      })
+    }
+
     setMetaData({
       ...metaData,
       [name]: valor,
@@ -50,6 +67,7 @@ const Metadata = () => {
         className="metadata-form"
         id="metadataForm"
         name="metadataForm"
+        onSubmit={(e) => validateUser(e)}
       >
         <div className="input-cont">
           <label htmlFor="docType">Tipo de documento</label>
@@ -82,6 +100,7 @@ const Metadata = () => {
             onClick={(e) => validateUser(e)}
             value={'Buscar usuario - Nueva Atención'}
             type={'button'}
+            disabled={searchUserDisabled}
           />
 
           <Button
@@ -95,6 +114,8 @@ const Metadata = () => {
 
       <div>
         {userError.error && userError.errorType === 400 ? (
+          <p className="error-message">{userError.message}</p>
+        ) : userError.error && userError.errorType === 404 ? (
           <p className="error-message">{userError.message}</p>
         ) : null}
 

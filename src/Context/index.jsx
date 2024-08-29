@@ -45,6 +45,9 @@ function FormularioProvider({ children }) {
   //setea el id del campo para que se llene solo uno a la vez
   const [fieldId, setFieldId] = useState('')
 
+  // Search user disabled button
+  const [searchUserDisabled, setSearchUserDisabled] = useState(false)
+
   //array del nivel 1
   const [nivel1, setNivel1] = useState([])
   //array del nivel 2
@@ -103,6 +106,7 @@ function FormularioProvider({ children }) {
     const initialdocNum = initialMetaData.docNum
     const docType = metaData.docType
     const docNum = metaData.docNum
+
     setLoading(true)
 
     try {
@@ -347,7 +351,7 @@ function FormularioProvider({ children }) {
         setUserError({
           error: true,
           errorType: 404,
-          message: 'Usuario no encontrado',
+          message: '* Usuario no pertenece a Medicina Prepagada',
         })
       } else {
         setUserExist(false)
@@ -476,6 +480,8 @@ function FormularioProvider({ children }) {
         loading,
         userError,
         setUserError,
+        searchUserDisabled,
+        setSearchUserDisabled,
       }}
     >
       {children}
