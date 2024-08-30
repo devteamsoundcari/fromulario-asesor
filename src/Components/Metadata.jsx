@@ -30,10 +30,28 @@ const Metadata = () => {
     const name = event.target.name
     const valor = event.target.value
 
-    if (
-      (name === 'docType' && valor !== '') ||
-      (name === 'docNum' && valor !== '')
-    ) {
+    // if (
+    //   (name === 'docType' && valor !== '') ||
+    //   (name === 'docNum' && valor !== '')
+    // ) {
+    //   setSearchUserDisabled(false)
+    // } else {
+    //   setSearchUserDisabled(true)
+    //   setUserError({
+    //     error: false,
+    //     message: '',
+    //   })
+    // }
+
+    setMetaData({
+      ...metaData,
+      [name]: valor,
+    })
+  }
+
+  useEffect(() => {
+    // console.log('Log loading', loading)
+    if (metaData.docType !== '' && metaData.docNum !== '') {
       setSearchUserDisabled(false)
     } else {
       setSearchUserDisabled(true)
@@ -42,16 +60,7 @@ const Metadata = () => {
         message: '',
       })
     }
-
-    setMetaData({
-      ...metaData,
-      [name]: valor,
-    })
-  }
-
-  // useEffect(() => {
-  //   console.log('Log loading', loading)
-  // }, [metaData])
+  }, [metaData])
 
   return (
     <details open>

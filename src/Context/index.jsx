@@ -91,6 +91,7 @@ function FormularioProvider({ children }) {
           errorType: 0,
           message: '',
         })
+        setSearchUserDisabled(true)
         break
       case 2:
         setTipifications([])
@@ -156,6 +157,7 @@ function FormularioProvider({ children }) {
           user_relationship: user.message[0].user_relationship,
           user_email_bh: user.message[0].user_email_bh,
           user_cellphone_bh: user.message[0].user_cellphone_bh,
+          user_position_contract: user.message[0].user_position_contract,
           term_and_conditions: user.message[0].term_and_conditions,
           servies_type: user.message[0].servies_type,
           agent_skill: user.message[0].agent_skill,
@@ -334,6 +336,7 @@ function FormularioProvider({ children }) {
           user_relationship: user.message[0].user_relationship,
           user_email_bh: user.message[0].user_email_bh,
           user_cellphone_bh: user.message[0].user_cellphone_bh,
+          user_position_contract: user.message[0].user_position_contract,
           term_and_conditions: user.message[0].term_and_conditions,
           servies_type: user.message[0].servies_type,
           agent_skill: user.message[0].agent_skill,
