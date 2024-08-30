@@ -91,6 +91,10 @@ function FormularioProvider({ children }) {
           errorType: 0,
           message: '',
         })
+        setTipError({
+          error: false,
+          message: '',
+        })
         setSearchUserDisabled(true)
         break
       case 2:
