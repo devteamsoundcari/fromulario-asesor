@@ -20,7 +20,7 @@ export const AddButton = ({ width, height, fill }) => {
           fill={fill || '#1C274C'}
         />
       </svg>
-      Agregar tipificación
+      <b>Agregar tipificaciones</b>
     </div>
   )
 }
