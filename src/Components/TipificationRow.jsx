@@ -23,7 +23,11 @@ const TipificationRow = ({
   const [localNivel3, setLocalNivel3] = useState([])
   const [valNiv3, setValNiv3] = useState('')
   const [valNiv4, setValNiv4] = useState('')
-  const [localDisabled, setLocalDisabled] = useState(false)
+  const [localDisabled, setLocalDisabled] = useState({
+    levelOne: false,
+    levelTwo: false,
+    levelThree: false
+  })
   const [errors, setErrors] = useState({
     motivoError: false,
     nivel1Error: false,
@@ -77,6 +81,21 @@ const TipificationRow = ({
         nivel1Error: false,
       }))
       const niv2 = await filtNiv2(value)
+      
+      if(niv2.length === 0) {
+        setValNiv2('N/A')
+        setValNiv3('N/A')
+        setLocalDisabled({
+          levelTwo: true,
+          levelThree: true
+        })
+      } else {
+        setLocalDisabled({
+          levelTwo: false,
+          levelThree: false
+        })
+      }
+
       setLocalNivel2(niv2)
       setLocalNivel3([])
     }
@@ -108,7 +127,9 @@ const TipificationRow = ({
 
     if (niv3.length === 0) {
       setValNiv3('N/A')
-      setLocalDisabled(true)
+      setLocalDisabled({
+        levelThree: true
+      })
       setTipData((prev) => ({
         ...prev,
         [`tipificacion${id}`]: {
@@ -229,8 +250,8 @@ const TipificationRow = ({
               value={valNiv2} // Se puede ajustar según sea necesario
               name={'nivel-2'}
               id={`motivo-${id}-level-2`}
-              required={true}
-              disabled={false}
+              required={false}
+              disabled={localDisabled.levelTwo}
               className={'selector level-2'}
             />
             {errors.nivel2Error && (
@@ -248,7 +269,7 @@ const TipificationRow = ({
               name={'nivel-3'}
               id={`motivo-${id}-level-3`}
               required={false}
-              disabled={localDisabled}
+              disabled={localDisabled.levelThree}
               className={'selector level-3'}
             />
             {errors.nivel3Error && (

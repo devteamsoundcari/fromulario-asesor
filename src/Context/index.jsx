@@ -248,8 +248,14 @@ function FormularioProvider({ children }) {
     const valorEnviado = valor
     // console.log('Valor', valor)
     const result = nivel1.find(({ value }) => valorEnviado === value)
-    setNivel2(result.tag_lvl2)
-    return result.tag_lvl2
+    if (!result.tag_lvl2) {
+      setNivel2([])
+      setNivel3([])
+      return []
+    } else {
+      setNivel2(result.tag_lvl2)
+      return result.tag_lvl2
+    }
   }
 
   // filtro del nivel 3
