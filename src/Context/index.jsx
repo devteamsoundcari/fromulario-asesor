@@ -1,7 +1,7 @@
 import React, { useState, createContext } from 'react'
 // import { tempData } from '../assets/tempData'
 import { getTipifications, getUserInfo, registerTags } from '../lib/services'
-import { documentTypeList, tempData } from '../lib/hardcoded'
+import { documentTypeList } from '../lib/hardcoded'
 // import { TipificationRow } from '../Components/TipificationRow'
 import PropTypes from 'prop-types'
 
