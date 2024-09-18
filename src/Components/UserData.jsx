@@ -9,6 +9,15 @@ const UserData = ({ user }) => {
 
   user = user.message[0]
 
+  const contratosArray = user.contratosFamilia
+    .replaceAll('<b>', '')
+    .replaceAll('</b>', '')
+    .split('<br>')
+
+  const contratos = contratosArray.map((contrato, index) => (
+    <li key={index}>{contrato}</li>
+  ))
+
   return (
     <div className="user-data">
       <div className="user-name">
@@ -69,7 +78,7 @@ const UserData = ({ user }) => {
       </div>
       <div className="contratos-familia">
         <p className="contratos-familia-label">Contratos y familia:</p>
-        <p className="contratos-familia-value">{user.contratosFamilia}</p>
+        <ul className="contratos-familia-value">{contratos}</ul>
       </div>
       <div className="id-conversacion">
         <p className="id-conversacion-label">Id conversación:</p>

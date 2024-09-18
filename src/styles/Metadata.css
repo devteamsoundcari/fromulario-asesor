@@ -54,6 +54,10 @@ input {
   font-weight: 700;
 }
 
+.contratos-familia-value {
+  list-style: none;
+}
+
 .table-cont {
   display: flex;
   justify-content: center;

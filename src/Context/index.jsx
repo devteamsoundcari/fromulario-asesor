@@ -1,7 +1,7 @@
 import React, { useState, createContext } from 'react'
 // import { tempData } from '../assets/tempData'
 import { getTipifications, getUserInfo, registerTags } from '../lib/services'
-import { documentTypeList, tempData } from '../lib/hardcoded'
+import { documentTypeList } from '../lib/hardcoded'
 // import { TipificationRow } from '../Components/TipificationRow'
 import PropTypes from 'prop-types'
 
@@ -45,6 +45,9 @@ function FormularioProvider({ children }) {
   //setea el id del campo para que se llene solo uno a la vez
   const [fieldId, setFieldId] = useState('')
 
+  // Search user disabled button
+  const [searchUserDisabled, setSearchUserDisabled] = useState(false)
+
   //array del nivel 1
   const [nivel1, setNivel1] = useState([])
   //array del nivel 2
@@ -52,9 +55,16 @@ function FormularioProvider({ children }) {
   //array del nivel 3
   const [nivel3, setNivel3] = useState([])
 
+  // Errores de validación de usuario
+  const [userError, setUserError] = useState({
+    error: false,
+    message: '',
+  })
+
   // Errores para cuando se crea una tipificación o no hay un usuario seleccionado
   const [tipError, setTipError] = useState({
     error: false,
+    errorType: 0,
     message: 'Debe crear al menos una tipificación con el botón "+"',
   })
 
@@ -74,6 +84,18 @@ function FormularioProvider({ children }) {
         })
         setFilteredUser([])
         setUserExist(false)
+        setAutData(null)
+        setFilteredUser([])
+        setUserError({
+          error: false,
+          errorType: 0,
+          message: '',
+        })
+        setTipError({
+          error: false,
+          message: '',
+        })
+        setSearchUserDisabled(true)
         break
       case 2:
         setTipifications([])
@@ -96,6 +118,7 @@ function FormularioProvider({ children }) {
     const initialdocNum = initialMetaData.docNum
     const docType = metaData.docType
     const docNum = metaData.docNum
+
     setLoading(true)
 
     try {
@@ -138,6 +161,7 @@ function FormularioProvider({ children }) {
           user_relationship: user.message[0].user_relationship,
           user_email_bh: user.message[0].user_email_bh,
           user_cellphone_bh: user.message[0].user_cellphone_bh,
+          user_position_contract: user.message[0].user_position_contract,
           term_and_conditions: user.message[0].term_and_conditions,
           servies_type: user.message[0].servies_type,
           agent_skill: user.message[0].agent_skill,
@@ -172,14 +196,68 @@ function FormularioProvider({ children }) {
       error: false,
     }))
 
-    if (Object.entries(tipData).length === 0) {
+    // console.log('Sección de tipificaciones', tipifications)
+    if (tipifications.length === 0) {
+      setTipError((prevData) => ({
+        ...prevData,
+        error: true,
+        message: 'Debe crear al menos una tipificación con el botón "+"',
+      }))
+      return
+    }
+
+    const arrayTipData = Object.entries(tipData)
+    if (arrayTipData.length === 0) {
       // console.log('Aquí se dispararía el error')
       setTipError((prevData) => ({
         ...prevData,
         error: true,
-        message: 'Debe crear al menos una tipificación con el botón de "+"',
+        message: 'Debes seleccionar el motivo',
       }))
       return
+    } else {
+      const checkArray = arrayTipData.map((item) => {
+        if (item) {
+          return item
+        }
+      })
+
+      const checkArray2 = checkArray.map((item) => {
+        return item[1]
+      })
+
+      const checkArray3 = checkArray2.map((item) => {
+        if (
+          item.motivo === '' ||
+          item.nivel1 === '' ||
+          item.nivel2 === '' ||
+          item.nivel3 === ''
+        ) {
+          return false
+        } else {
+          return true
+        }
+      })
+      // console.log('checkArray3', checkArray3)
+
+      if (checkArray3.includes(false)) {
+        setTipError((prevData) => ({
+          ...prevData,
+          error: true,
+          message: 'Faltan campos por diligenciar',
+        }))
+        return
+      } else {
+        setTipError({
+          error: false,
+          message: '',
+        })
+      }
+
+      setTipError((prevData) => ({
+        ...prevData,
+        error: false,
+      }))
     }
 
     if (
@@ -203,11 +281,14 @@ function FormularioProvider({ children }) {
     }
 
     const objArray = [finalObject]
-    // console.log('aca se van a enviar los datos de', objArray)
+    console.log('aca se van a enviar los datos de', objArray)
 
-    const res = await registerTags(objArray)
-    // console.log('Response register Tags', res)
-    cleanData(e, 2)
+    try {
+      await registerTags(objArray)
+      cleanData(e, 2)
+    } catch (error) {
+      console.error('Error sending data:', error)
+    }
   }
 
   // filtro del nivel 1
@@ -224,8 +305,14 @@ function FormularioProvider({ children }) {
     const valorEnviado = valor
     // console.log('Valor', valor)
     const result = nivel1.find(({ value }) => valorEnviado === value)
-    setNivel2(result.tag_lvl2)
-    return result.tag_lvl2
+    if (!result.tag_lvl2) {
+      setNivel2([])
+      setNivel3([])
+      return []
+    } else {
+      setNivel2(result.tag_lvl2)
+      return result.tag_lvl2
+    }
   }
 
   // filtro del nivel 3
@@ -253,6 +340,29 @@ function FormularioProvider({ children }) {
     const docNum = metaData.docNum
 
     setLoading(true)
+    setTipError({
+      error: false,
+      message: 'Debe crear al menos una tipificación con el botón "+"',
+    })
+
+    /**  Vlidamos que la consulta lleve si o si el tipo de documento */
+    if (docType === '' || docNum === '') {
+      setLoading(false)
+      setUserExist(false)
+      setAutData(null)
+      setFilteredUser([])
+      setUserError({
+        error: true,
+        message: 'Faltan datos para poder buscar un usuario',
+      })
+      return
+    } else {
+      setUserError({
+        error: false,
+        message: '',
+      })
+    }
+
     try {
       const user = await getUserInfo(
         initialDocType,
@@ -293,11 +403,32 @@ function FormularioProvider({ children }) {
           user_relationship: user.message[0].user_relationship,
           user_email_bh: user.message[0].user_email_bh,
           user_cellphone_bh: user.message[0].user_cellphone_bh,
+          user_position_contract: user.message[0].user_position_contract,
           term_and_conditions: user.message[0].term_and_conditions,
           servies_type: user.message[0].servies_type,
           agent_skill: user.message[0].agent_skill,
           agent_id: user.message[0].agent_id,
           agent_name: user.message[0].agent_name,
+        })
+      } else if (user.status && user.status === 400) {
+        setLoading(false)
+        setUserExist(false)
+        setAutData(null)
+        setFilteredUser([])
+        setUserError({
+          error: true,
+          errorType: 400,
+          message: 'Faltan datos para poder buscar un usuario',
+        })
+      } else if (user.status && user.status === 404) {
+        setLoading(false)
+        setUserExist(false)
+        setAutData(null)
+        setFilteredUser([])
+        setUserError({
+          error: true,
+          errorType: 404,
+          message: '* Usuario no pertenece a Medicina Prepagada',
         })
       } else {
         setUserExist(false)
@@ -337,6 +468,16 @@ function FormularioProvider({ children }) {
       }
       // console.log('Entra a set tip', newLine)
       setTipifications([...tipifications, newLine])
+      setTipData((prev) => ({
+        ...prev,
+        [`tipificacion${id}`]: {
+          motivo: '',
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        },
+      }))
     }
   }
 
@@ -424,6 +565,11 @@ function FormularioProvider({ children }) {
         tipError,
         fieldsCount,
         loading,
+        userError,
+        setUserError,
+        searchUserDisabled,
+        setSearchUserDisabled,
+        setTipError,
       }}
     >
       {children}

@@ -27,6 +27,7 @@ const Input = ({
   children,
   required,
   disabled,
+  labelId,
 }) => {
   if (!id) {
     id = label
@@ -255,6 +256,7 @@ const Input = ({
             ? 'errorInput'
             : 'default'
         }
+        id={labelId ? labelId : ''}
       >
         {label}
       </label>

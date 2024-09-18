@@ -17,6 +17,10 @@ const Metadata = () => {
     autData,
     userExist,
     loading,
+    userError,
+    setUserError,
+    searchUserDisabled,
+    setSearchUserDisabled,
   } = useContext(FormularioContext)
 
   const { docType, docNum } = metaData
@@ -25,15 +29,38 @@ const Metadata = () => {
     event.preventDefault()
     const name = event.target.name
     const valor = event.target.value
+
+    // if (
+    //   (name === 'docType' && valor !== '') ||
+    //   (name === 'docNum' && valor !== '')
+    // ) {
+    //   setSearchUserDisabled(false)
+    // } else {
+    //   setSearchUserDisabled(true)
+    //   setUserError({
+    //     error: false,
+    //     message: '',
+    //   })
+    // }
+
     setMetaData({
       ...metaData,
       [name]: valor,
     })
   }
 
-  // useEffect(() => {
-  //   console.log('Log loading', loading)
-  // }, [metaData])
+  useEffect(() => {
+    // console.log('Log loading', loading)
+    if (metaData.docType !== '' && metaData.docNum !== '') {
+      setSearchUserDisabled(false)
+    } else {
+      setSearchUserDisabled(true)
+      setUserError({
+        error: false,
+        message: '',
+      })
+    }
+  }, [metaData]) // eslint-disable-line
 
   return (
     <details open>
@@ -49,6 +76,7 @@ const Metadata = () => {
         className="metadata-form"
         id="metadataForm"
         name="metadataForm"
+        onSubmit={(e) => validateUser(e)}
       >
         <div className="input-cont">
           <label htmlFor="docType">Tipo de documento</label>
@@ -66,11 +94,12 @@ const Metadata = () => {
           </select>
           <Input
             type={'text'}
-            label={'Ingrese el número de documento'}
+            label={'Número de documento'}
             onChange={onChange}
             value={docNum}
             name={'docNum'}
             id={'docNum'}
+            labelId={'docNumLabel'}
           />
         </div>
 
@@ -80,6 +109,7 @@ const Metadata = () => {
             onClick={(e) => validateUser(e)}
             value={'Buscar usuario - Nueva Atención'}
             type={'button'}
+            disabled={searchUserDisabled}
           />
 
           <Button
@@ -92,6 +122,12 @@ const Metadata = () => {
       </form>
 
       <div>
+        {userError.error && userError.errorType === 400 ? (
+          <p className="error-message">{userError.message}</p>
+        ) : userError.error && userError.errorType === 404 ? (
+          <p className="error-message">{userError.message}</p>
+        ) : null}
+
         {loading ? <Loader /> : userExist ? <UserData user={autData} /> : null}
       </div>
     </details>

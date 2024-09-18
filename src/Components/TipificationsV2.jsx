@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { FormularioContext } from '../Context/index'
 // import { dataArray } from '../assets/Motivos'
-import plusIcon from '../assets/add-circle.svg'
+import { AddButton } from '../Atoms/AddButton'
 import { BiCollapseVertical } from 'react-icons/bi'
 // import { Input } from '../Atoms/Input'
 import { TipificationRow } from './TipificationRow'
@@ -23,6 +23,7 @@ const TipificationsV2 = () => {
     sendData,
     data,
     tipifications,
+    userExist,
     // setData,
   } = useContext(FormularioContext)
 
@@ -33,30 +34,16 @@ const TipificationsV2 = () => {
 
     if (value !== '') {
       setTextAreaValue(value)
-      // console.log(tipData)
-
-      // Object.entries(tipData).map((element, i) => {
-      //   // console.log('Element', element)
-      //   // console.log(element[0])
-      //   const id = element[0].split('tipificacion')[1]
-      //   // setTipData((prevData) => ({
-      //   //   ...prevData,
-      //   //   observaciones: value,
-      //   // }))
-      //   setTextAreaValue(value)
-      // })
     } else {
       setTextAreaValue('N/A')
-
-      // Object.entries(tipData).map((element) => {
-      //   const id = element[0].split('tipificacion')[1]
-      //   // setTipData((prevData) => ({
-      //   //   ...prevData,
-      //   //   observaciones: value,
-      //   // }))
-      //   setTextAreaValue(value)
-      // })
     }
+  }
+
+  const style = {
+    backgroundColor: '#c5c5c5',
+    cursor: 'not-allowed',
+    pointerEvents: 'none',
+    color: 'white',
   }
 
   useEffect(() => {
@@ -104,8 +91,13 @@ const TipificationsV2 = () => {
               : 'add-row-btn-cont-d'
           }
         >
-          <span onClick={addLine}>
-            <img src={plusIcon} alt="icono de más" className="tip-icon" />
+          <span onClick={addLine} className={userExist ? '' : 'add-disabled'}>
+            {/* <img src={plusIcon} alt="icono de más" className="tip-icon" /> */}
+            {userExist ? (
+              <AddButton fill={'#0071ce'} />
+            ) : (
+              <AddButton fill={'#c5c5c5'} />
+            )}
           </span>
         </div>
 
@@ -131,6 +123,8 @@ const TipificationsV2 = () => {
             id="send-data"
             className="blue-primary-btn"
             value={'Enviar formulario'}
+            disabled={userExist ? false : true}
+            style={userExist ? {} : style}
           />
         </div>
       </form>
