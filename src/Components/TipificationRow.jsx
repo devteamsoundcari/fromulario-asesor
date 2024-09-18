@@ -1,3 +1,4 @@
+// import React from 'react'
 import { useState, useContext } from 'react'
 import { FormularioContext } from '../Context'
 import { Input } from '../Atoms/Input'
@@ -26,7 +27,7 @@ const TipificationRow = ({
   const [localDisabled, setLocalDisabled] = useState({
     levelOne: false,
     levelTwo: false,
-    levelThree: false
+    levelThree: false,
   })
   const [errors, setErrors] = useState({
     motivoError: false,
@@ -54,6 +55,7 @@ const TipificationRow = ({
         ...errors,
         motivoError: false,
       }))
+
       const niv1 = await filtNiv1(value)
       setLocalNivel1(niv1)
       setLocalNivel2([])
@@ -81,19 +83,40 @@ const TipificationRow = ({
         nivel1Error: false,
       }))
       const niv2 = await filtNiv2(value)
-      
-      if(niv2.length === 0) {
+
+      if (niv2.length === 0) {
         setValNiv2('N/A')
         setValNiv3('N/A')
         setLocalDisabled({
           levelTwo: true,
-          levelThree: true
+          levelThree: true,
         })
+
+        // console.log('Nivel 1 on change', value)
+        setTipData((prev) => ({
+          ...prev,
+          [`tipificacion${id}`]: {
+            motivo: localMotivo,
+            nivel1: value,
+            nivel2: 'N/A',
+            nivel3: 'N/A',
+            nivel4: 'N/A',
+          },
+        }))
+      } else if (niv2.length > 0 && value === '') {
+        setErrors((prev) => ({
+          ...prev,
+          nivel1Error: true,
+        }))
       } else {
         setLocalDisabled({
           levelTwo: false,
-          levelThree: false
+          levelThree: false,
         })
+        setErrors((prev) => ({
+          ...prev,
+          nivel1Error: false,
+        }))
       }
 
       setLocalNivel2(niv2)
@@ -128,14 +151,14 @@ const TipificationRow = ({
     if (niv3.length === 0) {
       setValNiv3('N/A')
       setLocalDisabled({
-        levelThree: true
+        levelThree: true,
       })
       setTipData((prev) => ({
         ...prev,
         [`tipificacion${id}`]: {
           motivo: localMotivo,
           nivel1: valNiv1,
-          nivel2: valNiv2,
+          nivel2: value === '' ? 'N/A' : value,
           nivel3: 'N/A',
           nivel4: 'N/A',
         },
@@ -190,7 +213,7 @@ const TipificationRow = ({
         nivel1: valNiv1,
         nivel2: valNiv2,
         nivel3: valNiv3,
-        nivel4: value,
+        nivel4: value === '' ? 'N/A' : value,
       },
     }))
   }
@@ -218,7 +241,7 @@ const TipificationRow = ({
                 </option>
               ))}
             </select>
-            {errors.motivoError && (
+            {errors && errors.motivoError && (
               <p className="error-par">No puedes dejar el motivo vacío</p>
             )}
           </div>
@@ -232,7 +255,6 @@ const TipificationRow = ({
               value={valNiv1} // Se puede ajustar según sea necesario
               name={'nivel-1'}
               id={`motivo-${id}-level-1`}
-              required={true}
               disabled={false}
               className={'selector level-1'}
             />

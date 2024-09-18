@@ -196,14 +196,68 @@ function FormularioProvider({ children }) {
       error: false,
     }))
 
-    if (Object.entries(tipData).length === 0) {
+    // console.log('Sección de tipificaciones', tipifications)
+    if (tipifications.length === 0) {
+      setTipError((prevData) => ({
+        ...prevData,
+        error: true,
+        message: 'Debe crear al menos una tipificación con el botón "+"',
+      }))
+      return
+    }
+
+    const arrayTipData = Object.entries(tipData)
+    if (arrayTipData.length === 0) {
       // console.log('Aquí se dispararía el error')
       setTipError((prevData) => ({
         ...prevData,
         error: true,
-        message: 'Debe crear al menos una tipificación con el botón de "+"',
+        message: 'Debes seleccionar el motivo',
       }))
       return
+    } else {
+      const checkArray = arrayTipData.map((item) => {
+        if (item) {
+          return item
+        }
+      })
+
+      const checkArray2 = checkArray.map((item) => {
+        return item[1]
+      })
+
+      const checkArray3 = checkArray2.map((item) => {
+        if (
+          item.motivo === '' ||
+          item.nivel1 === '' ||
+          item.nivel2 === '' ||
+          item.nivel3 === ''
+        ) {
+          return false
+        } else {
+          return true
+        }
+      })
+      // console.log('checkArray3', checkArray3)
+
+      if (checkArray3.includes(false)) {
+        setTipError((prevData) => ({
+          ...prevData,
+          error: true,
+          message: 'Faltan campos por diligenciar',
+        }))
+        return
+      } else {
+        setTipError({
+          error: false,
+          message: '',
+        })
+      }
+
+      setTipError((prevData) => ({
+        ...prevData,
+        error: false,
+      }))
     }
 
     if (
@@ -227,11 +281,14 @@ function FormularioProvider({ children }) {
     }
 
     const objArray = [finalObject]
-    // console.log('aca se van a enviar los datos de', objArray)
+    console.log('aca se van a enviar los datos de', objArray)
 
-    const res = await registerTags(objArray)
-    // console.log('Response register Tags', res)
-    cleanData(e, 2)
+    try {
+      await registerTags(objArray)
+      cleanData(e, 2)
+    } catch (error) {
+      console.error('Error sending data:', error)
+    }
   }
 
   // filtro del nivel 1
@@ -411,6 +468,16 @@ function FormularioProvider({ children }) {
       }
       // console.log('Entra a set tip', newLine)
       setTipifications([...tipifications, newLine])
+      setTipData((prev) => ({
+        ...prev,
+        [`tipificacion${id}`]: {
+          motivo: '',
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        },
+      }))
     }
   }
 
@@ -502,6 +569,7 @@ function FormularioProvider({ children }) {
         setUserError,
         searchUserDisabled,
         setSearchUserDisabled,
+        setTipError,
       }}
     >
       {children}

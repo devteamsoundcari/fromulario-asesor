@@ -60,7 +60,7 @@ const Metadata = () => {
         message: '',
       })
     }
-  }, [metaData])
+  }, [metaData]) // eslint-disable-line
 
   return (
     <details open>
