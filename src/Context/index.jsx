@@ -128,12 +128,13 @@ function FormularioProvider({ children }) {
         docType,
         docNum
       )
-      // console.log('User', user.message[0].tipoDocumento)
+      // console.log('User', user.message[0].idConversacion)
 
       if (user.status && user.status === 200) {
         setLoading(false)
         setUserExist(true)
         setAutData(user)
+
         const autorizaciones =
           typeof user.message[0].autorizaciones === 'string'
             ? []
@@ -421,6 +422,21 @@ function FormularioProvider({ children }) {
           message: 'Faltan datos para poder buscar un usuario',
         })
       } else if (user.status && user.status === 404) {
+        const error = user.message[0].estadoError
+        if (error && error === 1) {
+          setUserError({
+            error: true,
+            errorType: 404,
+            message: '* Hubo un fallo en el servicio',
+          })
+        } else {
+          setUserError({
+            error: true,
+            errorType: 404,
+            message: '* Usuario no pertenece a Medicina Prepagada',
+          })
+        }
+
         setLoading(false)
         setUserExist(false)
         setAutData(null)
